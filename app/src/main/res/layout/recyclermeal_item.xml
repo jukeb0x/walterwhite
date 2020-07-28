@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:orientation="horizontal"
+    android:padding="1dp">
+
+
+    <TextView
+        android:id="@+id/meal"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/mealPoints"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/pointcircle"
+        android:textSize="30sp"/>
+
+</LinearLayout>

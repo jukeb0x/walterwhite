@@ -53,7 +53,7 @@ public class DayRecyclerViewAdapter extends RecyclerView.Adapter<DayRecyclerView
 
         DayRecyclerViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.day);
+            myTextView = (TextView) itemView.findViewById(R.id.day);
             itemView.setOnClickListener(this);
         }
 

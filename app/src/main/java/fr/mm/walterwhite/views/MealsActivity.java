@@ -1,28 +1,19 @@
 package fr.mm.walterwhite.views;
 
-import android.graphics.Color;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
-import android.os.Build;
+
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.format.DateFormat;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,9 +21,10 @@ import fr.mm.walterwhite.R;
 import fr.mm.walterwhite.adaptaters.DayRecyclerViewAdapter;
 import fr.mm.walterwhite.adaptaters.MealRecyclerViewAdapter;
 import fr.mm.walterwhite.dao.Constants;
-import fr.mm.walterwhite.dao.DatabaseHelper;
 import fr.mm.walterwhite.dao.impl.ConsommationDao;
 import fr.mm.walterwhite.models.Consommation;
+import fr.mm.walterwhite.views.models.ConsommationViewModel;
+import fr.mm.walterwhite.views.models.MealViewModel;
 
 public class MealsActivity extends AppCompatActivity {
 
@@ -46,7 +38,6 @@ public class MealsActivity extends AppCompatActivity {
 
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +51,6 @@ public class MealsActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void handleConsos() {
         // Get ListView object from xml
        /* this.listConsos= (ListView) findViewById(R.id.listConsos);
@@ -94,7 +84,6 @@ public class MealsActivity extends AppCompatActivity {
 
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void handleMeals() {
         // Get ListView object from xml
         this.listMeals= (RecyclerView) findViewById(R.id.listMeals);
@@ -103,7 +92,20 @@ public class MealsActivity extends AppCompatActivity {
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         listMeals.setLayoutManager(layoutManager);
-        HashMap<String, Double> mapMeals= new HashMap<String,Double>();
+
+
+
+       // this.listViewAdapterMeals = new MealRecyclerViewAdapter(this,  mapMeals);
+        //this.listViewAdapterDays.setClickListener(this);
+
+
+        // Assign adapter to ListView
+       // this.listMeals.setAdapter(this.listViewAdapterMeals);
+
+        // Register the ListView for Context menu
+        //registerForContextMenu(this.listMeals);
+
+        List<MealViewModel> listMModels =new  ArrayList<MealViewModel>();
         for(String mealSel:Constants.MEALS) {
             double points=0;
             ConsommationDao db = new ConsommationDao(this);
@@ -114,29 +116,30 @@ public class MealsActivity extends AppCompatActivity {
             SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
             String formattedDate = df.format(c);
             List<Consommation> list = db.getConsommations(formattedDate, mealSel);
+            List<ConsommationViewModel> listCModels =new  ArrayList<ConsommationViewModel>();
             for(Consommation conso:list){
                 points+= conso.getEatenPoints();
+                ConsommationViewModel cm=new ConsommationViewModel(conso.getEatenName(),conso.getEatenPoints()+"",conso.getEatenPortion()+"gr");
+                listCModels.add(cm);
+
             }
-            mapMeals.put(mealSel,points);
+            MealViewModel mm=new  MealViewModel(mealSel, listCModels, points+"");
+
+            listMModels.add(mm);
 
         }
 
 
-        this.listViewAdapterMeals = new MealRecyclerViewAdapter(this,  mapMeals);
-        //this.listViewAdapterDays.setClickListener(this);
-
-
-        // Assign adapter to ListView
-        this.listMeals.setAdapter(this.listViewAdapterMeals);
-
-        // Register the ListView for Context menu
-        registerForContextMenu(this.listMeals);
+        //instantiate your adapter with the list of genres
+        MealRecyclerViewAdapter adapter = new MealRecyclerViewAdapter(this, listMModels);
+        listMeals.setLayoutManager(layoutManager);
+        listMeals.setAdapter(adapter);
 
 
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     protected void handleDays() {
         // Get ListView object from xml
         this.listDays = (RecyclerView) findViewById(R.id.listDays);

@@ -1,24 +1,21 @@
 package fr.mm.walterwhite.views;
 
-import android.graphics.Color;
+import android.app.DatePickerDialog;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.text.format.DateFormat;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,10 +24,8 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.mm.walterwhite.R;
-import fr.mm.walterwhite.adaptaters.DayRecyclerViewAdapter;
 import fr.mm.walterwhite.adaptaters.MealRecyclerViewAdapter;
 import fr.mm.walterwhite.dao.Constants;
-import fr.mm.walterwhite.dao.DatabaseHelper;
 import fr.mm.walterwhite.dao.impl.ConsommationDao;
 import fr.mm.walterwhite.models.Consommation;
 
@@ -38,12 +33,13 @@ public class MealsActivity extends AppCompatActivity {
 
     private ListView listConsos;
     private RecyclerView listMeals;
-    private RecyclerView listDays;
+    //private RecyclerView listDays;
     private final List<Consommation> consoList = new ArrayList<Consommation>();
     private ArrayAdapter<Consommation> listViewAdapter;
     private MealRecyclerViewAdapter listViewAdapterMeals;
-    private DayRecyclerViewAdapter listViewAdapterDays;
-
+    //private DayRecyclerViewAdapter listViewAdapterDays;
+    private DatePickerDialog MainDatePicker;
+    private TextView MainDateTxtView;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -53,11 +49,42 @@ public class MealsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meals);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        handleDays();
+        //handleDays();
         handleMeals();
         handleConsos();
+        handleMainDatePicker();
+
+    }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void handleMainDatePicker() {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String strTodayDate = dateFormat.format(Calendar.getInstance().getTime());
+
+        MainDateTxtView=findViewById(R.id.MainDateTextView);
+        MainDateTxtView.setText(strTodayDate);
+        MainDateTxtView.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                MainDatePicker = new DatePickerDialog(MealsActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                MainDateTxtView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                MainDatePicker.show();
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -97,7 +124,7 @@ public class MealsActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void handleMeals() {
         // Get ListView object from xml
-        this.listMeals= (RecyclerView) findViewById(R.id.listMeals);
+        this.listMeals=  findViewById(R.id.listMeals);
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -136,7 +163,7 @@ public class MealsActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    /*@RequiresApi(api = Build.VERSION_CODES.N)
     protected void handleDays() {
         // Get ListView object from xml
         this.listDays = (RecyclerView) findViewById(R.id.listDays);
@@ -163,7 +190,7 @@ public class MealsActivity extends AppCompatActivity {
 
         // Register the ListView for Context menu
         registerForContextMenu(this.listDays);
-    }
+    }*/
 
 
 

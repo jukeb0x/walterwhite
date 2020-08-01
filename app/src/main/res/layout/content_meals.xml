@@ -5,21 +5,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-   <!-- <ListView
-        android:id="@+id/listConsos"
-        android:layout_width="409dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="80dp"
-        android:background="#D61212"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.991" />-->
-
-    <LinearLayout
+    <LinearLayout android:id="@+id/PointsOverviewLayout"
         android:layout_width= "match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="60dp"
@@ -69,31 +55,21 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listMeals"
-        android:layout_width="409dp"
-        android:layout_height="500dp"
-        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:background="#5EFF5722"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/MainAddIngredientButtonLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.0" >
+        app:layout_constraintTop_toBottomOf="@+id/PointsOverviewLayout"
+        app:layout_constraintVertical_bias="0.0">
 
     </androidx.recyclerview.widget.RecyclerView>
-    <!--androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listDays"
+
+    <RelativeLayout android:id="@+id/MainDateLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#FFFFFF"
-        android:orientation="horizontal"
-        android:weightSum="7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/PointsOverviewLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
@@ -108,17 +84,22 @@
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="450dp"
-        android:layout_marginTop="1400dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/mainAddIngredientButtonLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/MainAddIngredientButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listMeals">
+
+        <Button
+            android:id="@+id/MainAddIngredientButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/mainAddIngredientButtonLabel" />
+
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

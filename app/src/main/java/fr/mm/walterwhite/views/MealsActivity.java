@@ -1,14 +1,23 @@
 package fr.mm.walterwhite.views;
 
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.app.DatePickerDialog;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
+import android.os.Build;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,11 +26,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.google.android.material.navigation.NavigationView;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -40,20 +49,25 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
 
     private ListView listConsos;
     private RecyclerView listMeals;
+    //private RecyclerView listDays;
     private RecyclerView listDays;
     private final List<Consommation> consoList = new ArrayList<>();
     private ArrayAdapter<Consommation> listViewAdapter;
     private MealRecyclerViewAdapter listViewAdapterMeals;
+    //private DayRecyclerViewAdapter listViewAdapterDays;
+    private DatePickerDialog MainDatePicker;
+    private TextView MainDateTxtView;
     private DayRecyclerViewAdapter listViewAdapterDays;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
 
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meals);
+        //handleDays();
     /*    Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
        configureDrawerLayout();
@@ -61,9 +75,45 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
         handleMeals();
         handleConsos();
         handleButton();
-
+        handleMainDatePicker();
 
     }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void handleMainDatePicker() {
+
+        android.icu.text.SimpleDateFormat dateFormat = new android.icu.text.SimpleDateFormat("dd/MM/yyyy");
+        String strTodayDate = dateFormat.format(Calendar.getInstance().getTime());
+
+        MainDateTxtView=findViewById(R.id.MainDateTextView);
+        MainDateTxtView.setText(strTodayDate);
+        MainDateTxtView.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                MainDatePicker = new DatePickerDialog(MealsActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                MainDateTxtView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                MainDatePicker.show();
+            }
+        });
+    }
+
+
+
+
+
 
     // 2 - Configure Drawer Layout
     private void configureDrawerLayout(){
@@ -75,7 +125,7 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
     }
 
     // 3 - Configure NavigationView
-    private void configureNavigationView(){
+    private void configureNavigationView() {
         this.navigationView = findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -129,6 +179,7 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void handleMeals() {
         // Get ListView object from xml
         this.listMeals= findViewById(R.id.listMeals);
@@ -185,6 +236,7 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
     }
 
 
+    /*@RequiresApi(api = Build.VERSION_CODES.N)
     protected void handleDays() {
         // Get ListView object from xml
         this.listDays =  findViewById(R.id.listDays);
@@ -211,7 +263,7 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
 
         // Register the ListView for Context menu
         registerForContextMenu(this.listDays);
-    }
+    }*/
 
 
 

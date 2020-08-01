@@ -47,26 +47,20 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
         holder.getConsoName().setText(artist.getName());
         holder.getAmount().setText(artist.getAmount());
         holder.getEatenPoints().setText(artist.getPoints());
+
+
+
     }
 
     @Override
     public void onBindGroupViewHolder(MealRecyclerViewHolder holder, int flatPosition,
                                       ExpandableGroup group) {
         holder.setInfos(group);
+        holder.setArrowDown(isGroupExpanded(group));
+
 
     }
 
-    @Override
-    public void onGroupExpanded(int positionStart, int itemCount) {
-        super.onGroupExpanded(positionStart,itemCount);
-        ImageView imgArrow;
-        //imgArrow = mInflater.inflate(R.layout.recyclermeal_conso_item, parent, false).findviewbyid(R.id.consoNameItem);
-    }
-
-    @Override
-    public void onGroupCollapsed(int positionStart, int itemCount) {
-        super.onGroupExpanded(positionStart,itemCount);
-    }
 
 
     public class ConsoRecyclerViewHolder extends ChildViewHolder {
@@ -136,16 +130,27 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
 
         private TextView name;
         private TextView points;
+        private ImageView arrow;
 
         public MealRecyclerViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.mealItem);
             points = (TextView) itemView.findViewById(R.id.mealPointItem);
+            arrow = (ImageView) itemView.findViewById(R.id.conso_arrow_expand);
         }
 
         public void setInfos(ExpandableGroup group) {
             name.setText(((MealViewModel)group).getName());
             points.setText(((MealViewModel)group).getPoints());
+        }
+
+
+        public void setArrowDown(boolean expanded) {
+           if (expanded) {
+               arrow.setImageResource(R.drawable.ic_arrow_down);
+           }else{
+               arrow.setImageResource(R.drawable.ic_arrow_right);
+           }
         }
     }
 }

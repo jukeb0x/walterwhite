@@ -13,12 +13,14 @@
         android:id="@+id/mealItem"
         android:layout_width="300dp"
         android:layout_height="40dp"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"/>
     <TextView
         android:id="@+id/mealPointItem"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/pointcircle"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:gravity="center"/>
 
 </LinearLayout>

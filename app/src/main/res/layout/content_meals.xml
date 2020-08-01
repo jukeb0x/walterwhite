@@ -9,7 +9,7 @@
         android:layout_width= "match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="60dp"
-        android:background="#009688"
+        android:background="#333333"
         android:orientation="horizontal"
         android:padding="10dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/listMeals"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#5EFF5722"
+        android:background="#333333"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/MainAddIngredientButtonLayout"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +67,7 @@
     <RelativeLayout android:id="@+id/MainDateLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="#333333"
         app:layout_constraintBottom_toTopOf="@+id/PointsOverviewLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -78,13 +79,15 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textStyle="bold"
-            android:textSize="30sp"/>
+            android:textSize="30sp"
+            android:textColor="#FFFFFF"/>
 
     </RelativeLayout>
 
     <RelativeLayout android:id="@+id/MainAddIngredientButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="#333333"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listMeals">
 

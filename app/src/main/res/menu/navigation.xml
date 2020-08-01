@@ -6,5 +6,16 @@
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
+
+
+    <item android:id="@+id/action_weight"
+        android:title="@string/action_weight"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_main"
+        android:title="@string/action_main"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
 </menu>

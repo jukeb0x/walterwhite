@@ -52,9 +52,7 @@
 
     </LinearLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listMeals"
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/listMeals"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#5EFF5722"
@@ -84,9 +82,7 @@
 
     </RelativeLayout>
 
-
-    <RelativeLayout
-        android:id="@+id/MainAddIngredientButtonLayout"
+    <RelativeLayout android:id="@+id/MainAddIngredientButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -3,11 +3,9 @@ package fr.mm.walterwhite.views;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.app.DatePickerDialog;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,9 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.google.android.material.navigation.NavigationView;
-
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -165,7 +161,7 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
     }
 
     protected void handleButton() {
-        Button myButton =  findViewById(R.id.button);
+        Button myButton =  findViewById(R.id.MainAddIngredientButton);
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,41 +230,6 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
 
 
     }
-
-
-    /*@RequiresApi(api = Build.VERSION_CODES.N)
-    protected void handleDays() {
-        // Get ListView object from xml
-        this.listDays =  findViewById(R.id.listDays);
-
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
-        listDays.setLayoutManager(layoutManager);
-
-        // Define a new Adapter
-        // 1 - Context
-        // 2 - Layout for the row
-        // 3 - ID of the TextView to which the data is written
-        // 4 - the List of data
-
-
-
-        this.listViewAdapterDays = new DayRecyclerViewAdapter(this, Constants.DAYS);
-        //this.listViewAdapterDays.setClickListener(this);
-
-
-        // Assign adapter to ListView
-        this.listDays.setAdapter(this.listViewAdapterDays);
-
-        // Register the ListView for Context menu
-        registerForContextMenu(this.listDays);
-    }*/
-
-
-
-
-
 
     @Override
     public void onBackPressed() {

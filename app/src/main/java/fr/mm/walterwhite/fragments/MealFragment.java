@@ -108,7 +108,7 @@ public class MealFragment extends Fragment   {
 
 
     protected void handleButton() {
-        Button myButton =  getView().findViewById(R.id.button);
+        Button myButton =  getView().findViewById(R.id.MainAddIngredientButton);
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,80 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.CreateIngredientFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/CreateIngredientComposition"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <RelativeLayout
+        <RelativeLayout
+            android:id="@+id/CreateIngredientComposition2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/calorie_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/calorie_amount_label"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:text="@string/calorie_amount_label" />
+
+                <EditText
+                    android:id="@+id/calorie_amount"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/calorie_amount_label"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/sugar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/calorie_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calorie_layout">
+
+                <TextView
+                    android:id="@+id/sugar_amount_label"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:text="@string/sugar_amount_label" />
+
+                <EditText
+                    android:id="@+id/sugar_amount"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/sugar_amount_label"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fat_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/sugar_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sugar_layout">
+
+                <TextView
+                    android:id="@+id/fat_amount_label"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:text="@string/fat_amount_label" />
+
+                <EditText
+                    android:id="@+id/fat_amount"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/fat_amount_label"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/prot_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/fat_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fat_layout">
+
+                <TextView
+                    android:id="@+id/prot_amount_label"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:text="@string/prot_amount_label" />
+
+                <EditText
+                    android:id="@+id/prot_amount"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/prot_amount_label"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/new_ingredient_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/prot_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/prot_layout">
+
+                <TextView
+                    android:id="@+id/new_ingredient_name_label"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:text="@string/new_ingredient_name_label" />
+
+                <EditText
+                    android:id="@+id/new_ingredient_name"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/new_ingredient_name_label"
+                    android:imeOptions="actionDone"
+                    android:inputType="text" />
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/new_ingredient_points_layout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/new_ingredient_name_layout"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/new_ingredient_name_layout">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/pointcircle"
+                    android:text="50"
+                    android:textAlignment="center"
+                    android:textSize="50sp"
+                    android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/CreateIngredientButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="parent">
-
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/calorie_amount_label" />
-        <EditText
-            android:id="@+id/calorie_amount"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:inputType="text"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/sugar_amount_label" />
-        <EditText
-            android:id="@+id/sugar_amount"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:inputType="text"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/fat_amount_label" />
-        <EditText
-            android:id="@+id/fat_amount"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:inputType="text"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/prot_amount_label" />
-        <EditText
-            android:id="@+id/prot_amount"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:inputType="text"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/pointcircle" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/MainAddIngredientButtonLayout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listMeals">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/CreateIngredientComposition">
 
         <Button
-            android:id="@+id/addKnownButton"
+            android:id="@+id/AddCreatedIngredientButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/addKnownButtonLabel" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

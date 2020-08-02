@@ -6,9 +6,10 @@
     android:id="@+id/activity_main_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    tools:context=".views.MealsActivity">
+    android:background="#000000"
+    android:fitsSystemWindows="false"
+    tools:context=".views.MealsActivity"
+    tools:openDrawer="start">
 
 <FrameLayout
     android:layout_width="match_parent"
@@ -18,11 +19,12 @@
     <com.google.android.material.navigation.NavigationView
 
         android:id="@+id/activity_main_nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="#2E42B2"
         app:headerLayout="@menu/navigation_header"
+        app:itemTextColor="#FFFFFF"
+        app:itemIconTint="#FFFFFF"
         app:menu="@menu/navigation" />
-
-
 </androidx.drawerlayout.widget.DrawerLayout>

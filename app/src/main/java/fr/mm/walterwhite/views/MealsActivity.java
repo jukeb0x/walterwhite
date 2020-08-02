@@ -2,6 +2,9 @@ package fr.mm.walterwhite.views;
 
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -20,7 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import fr.mm.walterwhite.R;
 import fr.mm.walterwhite.adaptaters.DayRecyclerViewAdapter;
@@ -29,6 +34,8 @@ import fr.mm.walterwhite.fragments.MealFragment;
 import fr.mm.walterwhite.fragments.SettingsFragment;
 import fr.mm.walterwhite.fragments.WeightFragment;
 import fr.mm.walterwhite.models.Consommation;
+import fr.mm.walterwhite.views.models.ConsommationViewModel;
+import fr.mm.walterwhite.views.models.MealViewModel;
 
 public class MealsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

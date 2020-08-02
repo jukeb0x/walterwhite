@@ -10,17 +10,20 @@
         android:id="@+id/consoNameItem"
         android:layout_width="200dp"
         android:layout_height="40dp"
+        android:textColor="#FFFFFF"
         android:textSize="25sp"/>
     <TextView
         android:id="@+id/consoAmountItem"
         android:layout_width="150dp"
         android:layout_height="80dp"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"/>
     <TextView
         android:id="@+id/consoPointItem"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/pointcircle"
+        android:gravity="center"
         android:textSize="30sp"/>
 
 

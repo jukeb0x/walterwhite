@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Walter White</string>
-    <string name="title_activity_meals">MealsActivity</string>
+
+
     <!-- Strings used for fragments for navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -37,8 +38,24 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
+    <!-- Navigation menu -->
+    <string name="menu_header">Menu</string>
+    <string name="menu_recipes">Recettes</string>
+    <string name="menu_weights">Poids</string>
+    <string name="menu_settings">Parametres</string>
+    <string name="menu_meals">Repas</string>
+
+
+
+
+
+
+    <!--MealsActivity strings-->
+    <string name="title_activity_meals">MealsActivity</string>
     <string name="mainAddIngredientButtonLabel">Ajouter un aliment</string>
 
+
+    <!--NewConsoActivity strings-->
     <string name="title_activity_new_conso">NewConsoActivity</string>
     <string name="tab_scan">Scan</string>
     <string name="tab_express">Express</string>

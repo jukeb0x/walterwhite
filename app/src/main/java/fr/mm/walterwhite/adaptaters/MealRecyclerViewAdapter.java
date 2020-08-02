@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
@@ -52,6 +53,8 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
     public void onBindGroupViewHolder(MealRecyclerViewHolder holder, int flatPosition,
                                       ExpandableGroup group) {
         holder.setInfos(group);
+        holder.setArrowDown(isGroupExpanded(group));
+
 
     }
 
@@ -123,16 +126,27 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
 
         private TextView name;
         private TextView points;
+        private ImageView arrow;
 
         public MealRecyclerViewHolder(View itemView) {
             super(itemView);
             name =  itemView.findViewById(R.id.mealItem);
             points =  itemView.findViewById(R.id.mealPointItem);
+            arrow =  itemView.findViewById(R.id.conso_arrow_expand);
         }
 
         public void setInfos(ExpandableGroup group) {
             name.setText(((MealViewModel)group).getName());
             points.setText(((MealViewModel)group).getPoints());
+        }
+
+
+        public void setArrowDown(boolean expanded) {
+           if (expanded) {
+               arrow.setImageResource(R.drawable.ic_arrow_down);
+           }else{
+               arrow.setImageResource(R.drawable.ic_arrow_right);
+           }
         }
     }
 }

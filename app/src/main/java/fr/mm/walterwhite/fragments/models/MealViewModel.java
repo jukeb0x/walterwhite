@@ -1,4 +1,4 @@
-package fr.mm.walterwhite.views.models;
+package fr.mm.walterwhite.fragments.models;
 
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
@@ -16,6 +16,8 @@ public class MealViewModel  extends ExpandableGroup<ConsommationViewModel> {
         this.points = points;
         this.consos = items;
     }
+
+
 
 
 

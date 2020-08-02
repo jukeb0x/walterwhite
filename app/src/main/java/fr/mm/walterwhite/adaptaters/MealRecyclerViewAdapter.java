@@ -15,8 +15,8 @@ import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 import java.util.List;
 
 import fr.mm.walterwhite.R;
-import fr.mm.walterwhite.views.models.ConsommationViewModel;
-import fr.mm.walterwhite.views.models.MealViewModel;
+import fr.mm.walterwhite.fragments.models.ConsommationViewModel;
+import fr.mm.walterwhite.fragments.models.MealViewModel;
 
 public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealRecyclerViewAdapter.MealRecyclerViewHolder, MealRecyclerViewAdapter.ConsoRecyclerViewHolder> {
 
@@ -47,9 +47,6 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
         holder.getConsoName().setText(artist.getName());
         holder.getAmount().setText(artist.getAmount());
         holder.getEatenPoints().setText(artist.getPoints());
-
-
-
     }
 
     @Override
@@ -60,7 +57,6 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
 
 
     }
-
 
 
     public class ConsoRecyclerViewHolder extends ChildViewHolder {
@@ -97,9 +93,9 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
         public ConsoRecyclerViewHolder(View itemView) {
             super(itemView);
 
-            consoName = (TextView) itemView.findViewById(R.id.consoNameItem);
-            eatenPoints = (TextView) itemView.findViewById(R.id.consoPointItem);
-            amount = (TextView) itemView.findViewById(R.id.consoAmountItem);
+            consoName = itemView.findViewById(R.id.consoNameItem);
+            eatenPoints = itemView.findViewById(R.id.consoPointItem);
+            amount = itemView.findViewById(R.id.consoAmountItem);
         }
 
         public void onBind(ConsommationViewModel artist) {
@@ -134,9 +130,9 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
 
         public MealRecyclerViewHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.mealItem);
-            points = (TextView) itemView.findViewById(R.id.mealPointItem);
-            arrow = (ImageView) itemView.findViewById(R.id.conso_arrow_expand);
+            name =  itemView.findViewById(R.id.mealItem);
+            points =  itemView.findViewById(R.id.mealPointItem);
+            arrow =  itemView.findViewById(R.id.conso_arrow_expand);
         }
 
         public void setInfos(ExpandableGroup group) {

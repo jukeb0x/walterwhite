@@ -4,28 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="activity_main_nav_view">
 
-    <item android:id="@+id/action_meals"
+    <item android:id="@+id/action_main"
         android:title="@string/menu_meals"
         android:icon="@drawable/ic_meals"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_recipes"
         android:title="@string/menu_recipes"
         android:icon="@drawable/ic_recipes"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/action_weights"
+    <item android:id="@+id/action_weight"
         android:title="@string/menu_weights"
         android:icon="@drawable/ic_weights"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_settings"
         android:title="@string/menu_settings"
         android:icon="@drawable/ic_settings"
         android:orderInCategory="100"
-        app:showAsAction="never"
-        />
+        app:showAsAction="ifRoom" />
 </menu>

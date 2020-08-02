@@ -1,4 +1,4 @@
-package fr.mm.walterwhite.views.models;
+package fr.mm.walterwhite.fragments.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

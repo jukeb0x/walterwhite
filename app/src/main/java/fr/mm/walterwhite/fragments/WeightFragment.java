@@ -77,6 +77,9 @@ public class WeightFragment extends Fragment {
 
             }
         });
+    }
+
+    public void onBackPressed() {
 
     }
 

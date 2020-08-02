@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -46,7 +47,7 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
     private DayRecyclerViewAdapter listViewAdapterDays;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-
+    private final String[] FRAGMENTTAGSARRAY = {"WEIGHTFRAGMENT","SETTINGSFRAGMENT","RECIPESFRAGMENT"};
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -86,13 +87,26 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
 
     @Override
     public void onBackPressed() {
-        // 5 - Handle back click to close menu
+
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (isActiveFragmentDifferentFromMain()) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame, new MealFragment()).commit();
+        } else{
             super.onBackPressed();
         }
     }
+
+    private boolean isActiveFragmentDifferentFromMain(){
+        for (String mFragName:FRAGMENTTAGSARRAY) {
+            Fragment mFragment = getSupportFragmentManager().findFragmentByTag(mFragName);
+            if (null != mFragment && mFragment.isVisible()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     @Override
@@ -103,10 +117,10 @@ public class MealsActivity extends AppCompatActivity implements NavigationView.O
 
         switch (id){
             case R.id.action_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame, new SettingsFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame, new SettingsFragment(),"SETTINGSFRAGMENT").commit();
                 break;
             case R.id.action_weight:
-                getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame, new WeightFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame, new WeightFragment(),"WEIGHTFRAGMENT").commit();
                 break;
             case R.id.action_main:
                 getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame, new MealFragment()).commit();

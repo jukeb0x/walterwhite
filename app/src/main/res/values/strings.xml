@@ -77,4 +77,5 @@
     <string name="fat_amount_label">Graisses</string>
     <string name="prot_amount_label">Protéines</string>
     <string name="addKnownButtonLabel">Ajouter à la liste des aliments connus</string>
+    <string name="new_ingredient_name_label">Nom</string>
 </resources>

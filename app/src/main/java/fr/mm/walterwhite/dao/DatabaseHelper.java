@@ -15,10 +15,13 @@ public abstract class DatabaseHelper extends SQLiteOpenHelper {
     // Database Name
     private static final String DATABASE_NAME = "walterwhite";
 
+    private DatabaseHelper singleton=null;
+
     // Table name: Note.
 
 
     public DatabaseHelper(Context context)  {
+
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

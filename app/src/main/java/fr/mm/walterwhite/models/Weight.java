@@ -1,11 +1,18 @@
 package fr.mm.walterwhite.models;
 
-import java.io.Serializable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+@Entity
 public class Weight implements Serializable  {
 
+        @PrimaryKey(autoGenerate = true)
         private int weightId;
+        @ColumnInfo(name = "date")
         private String weightDate;
+        @ColumnInfo(name = "pounds")
         private double weight;
 
 

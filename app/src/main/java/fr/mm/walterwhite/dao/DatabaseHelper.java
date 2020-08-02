@@ -1,71 +1,89 @@
 package fr.mm.walterwhite.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-public abstract class DatabaseHelper extends SQLiteOpenHelper {
+import androidx.annotation.NonNull;
+import androidx.room.Database;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
-    private static final String TAG = "SQLite";
+import fr.mm.walterwhite.dao.impl.IConsommationDao;
+import fr.mm.walterwhite.dao.impl.IIngredientDao;
+import fr.mm.walterwhite.dao.impl.IRecipeContentDao;
+import fr.mm.walterwhite.dao.impl.IRecipeDao;
+import fr.mm.walterwhite.dao.impl.IWeightDao;
+import fr.mm.walterwhite.models.Consommation;
+import fr.mm.walterwhite.models.Ingredient;
+import fr.mm.walterwhite.models.Recipe;
+import fr.mm.walterwhite.models.RecipeContent;
+import fr.mm.walterwhite.models.Weight;
 
-    // Database Version
-    private static final int DATABASE_VERSION = 1;
-
-    // Database Name
-    private static final String DATABASE_NAME = "walterwhite";
-
-    private DatabaseHelper singleton=null;
-
-    // Table name: Note.
+@Database(entities = {Consommation.class, Ingredient.class, Recipe.class, RecipeContent.class, Weight.class}, version = 6, exportSchema = false)
+public abstract class DatabaseHelper extends RoomDatabase {
 
 
-    public DatabaseHelper(Context context)  {
 
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        // --- SINGLETON ---
+        private static volatile DatabaseHelper INSTANCE;
+
+        // --- DAO ---
+        public abstract IConsommationDao consoDao();
+        public abstract IIngredientDao ingredientDao();
+        public abstract IRecipeContentDao recipeContentDao();
+        public abstract IRecipeDao recipeDao();
+        public abstract IWeightDao weightDao();
+
+    static final Migration MIGRATION_2_3 = new Migration(5, 6) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+                      ContentValues contentValues = new ContentValues();
+            contentValues.put("name", "Lait");
+            contentValues.put("meal", "PETIT-DEJEUNER");
+            contentValues.put("points", 3);
+            contentValues.put("date", "02/08/2020");
+            contentValues.put("portion", 25);
+            database.insert("Consommation", OnConflictStrategy.IGNORE, contentValues);
+        }
+    };
+
+
+    // --- INSTANCE ---
+        public static DatabaseHelper getInstance(Context context) {
+            if (INSTANCE == null) {
+                synchronized (DatabaseHelper.class) {
+                    if (INSTANCE == null) {
+                        INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                                DatabaseHelper.class, "walterwhite.db")
+                                .addCallback(prepopulateDatabase())
+                                .addMigrations(MIGRATION_2_3)
+                                .build();
+                    }
+                }
+            }
+            return INSTANCE;
+        }
+
+        // ---
+
+        private static Callback prepopulateDatabase(){
+            return new Callback() {
+
+                @Override
+                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                    super.onCreate(db);
+
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("name", "Banane");
+                    contentValues.put("name", "PETIT-DEJEUNER");
+                    contentValues.put("points", 0);
+                    contentValues.put("date", "02/08/2020");
+                    contentValues.put("portion", 100);
+                    db.insert("Consommation", OnConflictStrategy.IGNORE, contentValues);
+                }
+            };
+        }
     }
-
-    // Create table
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        Log.i(TAG, "MyDatabaseHelper.onCreate ... ");
-        // Execute Script.
-       /* db.execSQL(Constants.CREATE_CONSOMMATION_TABLE_SCRIPT);
-        db.execSQL(Constants.CREATE_INGREDIENT_TABLE_SCRIPT);
-        db.execSQL(Constants.CREATE_RECIPE_TABLE_SCRIPT);
-        db.execSQL(Constants.CREATE_RECIPECONTENT_TABLE_SCRIPT);
-        db.execSQL(Constants.CREATE_WEIGHT_TABLE_SCRIPT);*/
-    }
-
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        Log.i(TAG, "MyDatabaseHelper.onUpgrade ... ");
-        // Drop older table if existed
-      /*  db.execSQL(Constants.DROP_CONSOMMATION_TABLE_SCRIPT);
-        db.execSQL(Constants.DROP_INGREDIENT_TABLE_SCRIPT);
-        db.execSQL(Constants.DROP_RECIPE_TABLE_SCRIPT);
-        db.execSQL(Constants.DROP_RECIPECONTENT_TABLE_SCRIPT);
-        db.execSQL(Constants.DROP_WEIGHT_TABLE_SCRIPT);*/
-
-        // Create tables again
-        onCreate(db);
-    }
-
-
-    // If Note table has no data
-    // default, Insert 2 records.
-    public void createDefaultIfNeed()  {
-      /*  int count = this.getNotesCount();
-        if(count ==0 ) {
-            Note note1 = new Note("Firstly see Android ListView",
-                    "See Android ListView Example in o7planning.org");
-            Note note2 = new Note("Learning Android SQLite",
-                    "See Android SQLite Example in o7planning.org");
-            this.addNote(note1);
-            this.addNote(note2);
-        }*/
-    }
-
-}

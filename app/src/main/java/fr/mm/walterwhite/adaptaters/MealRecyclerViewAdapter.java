@@ -7,16 +7,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.thoughtbot.expandablerecyclerview.ExpandCollapseController;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
+import com.thoughtbot.expandablerecyclerview.models.ExpandableList;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import java.util.List;
 
 import fr.mm.walterwhite.R;
-import fr.mm.walterwhite.fragments.models.ConsommationViewModel;
 import fr.mm.walterwhite.fragments.models.MealViewModel;
+import fr.mm.walterwhite.models.Consommation;
 
 public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealRecyclerViewAdapter.MealRecyclerViewHolder, MealRecyclerViewAdapter.ConsoRecyclerViewHolder> {
 
@@ -43,10 +45,10 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
     @Override
     public void onBindChildViewHolder(ConsoRecyclerViewHolder holder, int flatPosition, ExpandableGroup group,
                                       int childIndex) {
-        final ConsommationViewModel artist = ((MealViewModel) group).getItems().get(childIndex);
-        holder.getConsoName().setText(artist.getName());
-        holder.getAmount().setText(artist.getAmount());
-        holder.getEatenPoints().setText(artist.getPoints());
+        final Consommation artist = ((MealViewModel) group).getItems().get(childIndex);
+        holder.getConsoName().setText(artist.getEatenName());
+        holder.getAmount().setText(artist.getEatenPortion()+"gr");
+        holder.getEatenPoints().setText(artist.getEatenPoints()+"");
     }
 
     @Override
@@ -56,6 +58,12 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
         holder.setArrowDown(isGroupExpanded(group));
 
 
+    }
+
+    public void updateData(List<? extends ExpandableGroup> groups){
+        this.expandableList = new ExpandableList(groups);
+        this.expandCollapseController = new ExpandCollapseController(expandableList, this);
+        this.notifyDataSetChanged();
     }
 
 
@@ -98,10 +106,10 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
             amount = itemView.findViewById(R.id.consoAmountItem);
         }
 
-        public void onBind(ConsommationViewModel artist) {
-            consoName.setText(artist.getName());
-            eatenPoints.setText(artist.getPoints());
-            amount.setText(artist.getAmount());
+        public void onBind(Consommation artist) {
+            consoName.setText(artist.getEatenName());
+            eatenPoints.setText(artist.getEatenPoints()+"");
+            amount.setText(artist.getEatenPortion()+"gr");
         }
     }
 

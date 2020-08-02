@@ -12,16 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import fr.mm.walterwhite.R;
-import fr.mm.walterwhite.fragments.models.WeightViewModel;
+import fr.mm.walterwhite.models.Weight;
 
 public class WeightRecyclerViewAdapter extends RecyclerView.Adapter<WeightRecyclerViewAdapter.WeightRecyclerViewHolder> {
 
-private List<WeightViewModel> mPounds;
+private List<Weight> mPounds;
 private LayoutInflater mInflater;
 private ItemClickListener mClickListener;
 
 // data is passed into the constructor
-public WeightRecyclerViewAdapter(Context context, List<WeightViewModel> mPounds) {
+public WeightRecyclerViewAdapter(Context context, List<Weight> mPounds) {
         this.mInflater = LayoutInflater.from(context);
         this.mPounds = mPounds;
         }
@@ -37,9 +37,9 @@ public WeightRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, in
 // binds the data to the view and textview in each row
 @Override
 public void onBindViewHolder(@NonNull WeightRecyclerViewHolder holder, int position) {
-    WeightViewModel animal = mPounds.get(position);
-        holder.myDateTextView.setText(animal.getDate());
-        holder.myPoundsTextView.setText(animal.getWeight());
+    Weight animal = mPounds.get(position);
+        holder.myDateTextView.setText(animal.getWeightDate());
+        holder.myPoundsTextView.setText(animal.getWeight()+"kg");
         }
 
 // total number of rows
@@ -47,6 +47,12 @@ public void onBindViewHolder(@NonNull WeightRecyclerViewHolder holder, int posit
 public int getItemCount() {
         return mPounds.size();
         }
+
+
+public void updateData(List<Weight> mPounds){
+    this.mPounds = mPounds;
+    this.notifyDataSetChanged();
+}
 
 // stores and recycles views as they are scrolled off screen
 public class WeightRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

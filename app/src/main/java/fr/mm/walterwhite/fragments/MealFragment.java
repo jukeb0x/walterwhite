@@ -2,10 +2,10 @@ package fr.mm.walterwhite.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,23 +19,29 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 import fr.mm.walterwhite.R;
 import fr.mm.walterwhite.adaptaters.MealRecyclerViewAdapter;
 import fr.mm.walterwhite.dao.Constants;
-import fr.mm.walterwhite.dao.impl.ConsommationDao;
-import fr.mm.walterwhite.fragments.models.ConsommationViewModel;
+import fr.mm.walterwhite.fragments.models.MealViewModel;
+import fr.mm.walterwhite.injection.Injection;
+import fr.mm.walterwhite.injection.ViewModelFactory;
 import fr.mm.walterwhite.models.Consommation;
+import fr.mm.walterwhite.utils.DateUtils;
+import fr.mm.walterwhite.viewmodels.ConsoViewModel;
 import fr.mm.walterwhite.views.NewConsoActivity;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingDouble;
 
 
 public class MealFragment extends Fragment   {
@@ -48,6 +54,8 @@ public class MealFragment extends Fragment   {
     private TextView MainDateTxtView;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private ConsoViewModel itemViewModel;
+    private MealRecyclerViewAdapter adapter;
 
     public static MealFragment newInstance() {
         return new MealFragment();
@@ -63,9 +71,11 @@ public class MealFragment extends Fragment   {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        configureViewModel();
+        handleMainDatePicker();
         handleMeals();
         handleButton();
-        handleMainDatePicker();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -90,7 +100,9 @@ public class MealFragment extends Fragment   {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                MainDateTxtView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                String chosenDate= DateUtils.formateDate(year, monthOfYear, dayOfMonth);
+                                MainDateTxtView.setText(chosenDate);
+                                getItems(chosenDate);
                             }
                         }, year, month, day);
                 MainDatePicker.show();
@@ -123,7 +135,7 @@ public class MealFragment extends Fragment   {
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    protected void handleMeals() {
+   /* protected void handleMeals() {
         // Get ListView object from xml
         this.listMeals= getView().findViewById(R.id.listMeals);
 
@@ -164,6 +176,121 @@ public class MealFragment extends Fragment   {
 
 
 
+    }*/
+
+       protected void handleMeals() {
+        // Get ListView object from xml
+        this.listMeals= getView().findViewById(R.id.listMeals);
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+
+        listMeals.setLayoutManager(layoutManager);
+
+
+
+        //instantiate your adapter with the list of genres
+        this.adapter = new MealRecyclerViewAdapter(getActivity(), initModelsList());
+
+        getItems(MainDateTxtView.getText().toString());
+        listMeals.setAdapter(adapter);
+
+
+
+    }
+
+
+    // -------------------
+    // DATA
+    // -------------------
+
+    private void configureViewModel(){
+        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(getActivity());
+        this.itemViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ConsoViewModel.class);
+       // this.itemViewModel.init(USER_ID);
+    }
+
+    // ---
+
+    // ---
+/*
+    private void getItems(int userId){
+        this.itemViewModel.getItems(userId).observe(this, this::updateItemsList);
+    }
+
+
+    private void deleteItem(Consommation item){
+        this.itemViewModel.deleteConsommation(item);
+    }*/
+
+    private void updateItem(Consommation item){
+ //modif de la donnée (portion)
+       // item.setEatenPortion();
+        this.itemViewModel.updateConsommation(item);
+    }
+
+    // -------------------
+    // UI
+    // -------------------
+    /*
+
+    private void configureRecyclerView(){
+        this.adapter = new ItemAdapter(this);
+        this.recyclerView.setAdapter(this.adapter);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ItemClickSupport.addTo(recyclerView, R.layout.activity_todo_list_item)
+                .setOnItemClickListener((recyclerView1, position, v) -> this.updateItem(this.adapter.getItem(position)));
+    }
+
+    private void updateHeader(User user){
+        this.profileText.setText(user.getUsername());
+        Glide.with(this).load(user.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(this.profileImage);
+    }
+*/
+    private void updateItemsList(List<Consommation> items){
+        Log.w("Mathilde", "items size=" + items.size());
+     //   this.adapter = new MealRecyclerViewAdapter(getActivity(), createModelsList(items));
+     //   listMeals.setAdapter(adapter);
+        this.adapter.updateData(createModelsList(items));
+
+    }
+
+    private List<MealViewModel> createModelsList(List<Consommation> items){
+        List<MealViewModel> listMModels =new ArrayList<>();
+        Map<String, List<Consommation>> result = items.stream()
+                .collect(groupingBy(
+                        Consommation::getEatenMeal));
+        Map<String, Double> likesPerType = items.stream()
+                .collect(groupingBy(Consommation::getEatenMeal, summingDouble(Consommation::getEatenPoints)));
+        for(String mealSel: Constants.MEALS) {
+            MealViewModel meal;
+            if(result.containsKey(mealSel)) {
+                Log.w("Mathilde", "meal=" + mealSel + " nb points " + result.get(mealSel));
+                meal = new MealViewModel(mealSel, result.get(mealSel), likesPerType.get(mealSel) + "");
+            }else{
+                meal=new MealViewModel(mealSel, new ArrayList<Consommation>(),0+"" );
+            }
+            listMModels.add(meal);
+        }
+
+
+        return listMModels;
+    }
+
+    private List<MealViewModel> initModelsList(){
+        List<MealViewModel> listMModels =new ArrayList<>();
+        for(String mealSel: Constants.MEALS) {
+            MealViewModel meal=new MealViewModel(mealSel, new ArrayList<Consommation>(),0+"" );
+            listMModels.add(meal);
+        }
+
+
+        return listMModels;
+    }
+
+    private void getItems(String meal){
+        Log.w("Mathilde", "date=" + meal);
+        this.itemViewModel.getConsommations(MainDateTxtView.getText().toString()).observe(getActivity(), this::updateItemsList);
     }
 
 

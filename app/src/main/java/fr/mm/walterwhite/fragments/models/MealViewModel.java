@@ -4,13 +4,15 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.List;
 
-public class MealViewModel  extends ExpandableGroup<ConsommationViewModel> {
+import fr.mm.walterwhite.models.Consommation;
+
+public class MealViewModel  extends ExpandableGroup<Consommation> {
 
     private String points;
     private String name;
-    private List<ConsommationViewModel> consos;
+    private List<Consommation> consos;
 
-    public MealViewModel(String name, List<ConsommationViewModel> items, String points) {
+    public MealViewModel(String name, List<Consommation> items, String points) {
         super(name, items);
         this.name = name;
         this.points = points;
@@ -38,11 +40,11 @@ public class MealViewModel  extends ExpandableGroup<ConsommationViewModel> {
         this.name = name;
     }
 
-    public List<ConsommationViewModel> getConsos() {
+    public List<Consommation> getConsos() {
         return consos;
     }
 
-    public void setConsos(List<ConsommationViewModel> consos) {
+    public void setConsos(List<Consommation> consos) {
         this.consos = consos;
     }
 }

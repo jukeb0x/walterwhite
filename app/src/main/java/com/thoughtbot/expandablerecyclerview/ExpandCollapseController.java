@@ -53,6 +53,7 @@ public class ExpandCollapseController {
   public boolean isGroupExpanded(ExpandableGroup group) {
     int groupIndex = expandableList.groups.indexOf(group);
     return expandableList.expandedGroupIndexes[groupIndex];
+
   }
 
   /**

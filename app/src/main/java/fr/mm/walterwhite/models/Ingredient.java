@@ -1,18 +1,38 @@
 package fr.mm.walterwhite.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class Ingredient implements Serializable  {
 
-
+        @PrimaryKey(autoGenerate = true)
         private int ingredientId;
+        @ColumnInfo(name = "name")
         private String ingredientName;
+        @ColumnInfo(name = "barcode")
+        private String ingredientBarcode;
+        @ColumnInfo(name = "calorie")
         private double ingredientCalorie;
+        @ColumnInfo(name = "sugar")
         private double ingredientSugar;
+        @ColumnInfo(name = "fat")
         private double ingredientFat;
-        private double ingredientPro;
+        @ColumnInfo(name = "prot")
+        private double ingredientProt;
+        @ColumnInfo(name = "portion")
         private double ingredientPortion;
 
+    public String getIngredientBarcode() {
+        return ingredientBarcode;
+    }
+
+    public void setIngredientBarcode(String ingredientBarcode) {
+        this.ingredientBarcode = ingredientBarcode;
+    }
 
     public int getIngredientId() {
         return ingredientId;
@@ -54,12 +74,12 @@ public class Ingredient implements Serializable  {
         this.ingredientFat = ingredientFat;
     }
 
-    public double getIngredientPro() {
-        return ingredientPro;
+    public double getIngredientProt() {
+        return ingredientProt;
     }
 
-    public void setIngredientPro(double ingredientPro) {
-        this.ingredientPro = ingredientPro;
+    public void setIngredientProt(double ingredientPro) {
+        this.ingredientProt = ingredientPro;
     }
 
     public double getIngredientPortion() {
@@ -70,13 +90,13 @@ public class Ingredient implements Serializable  {
         this.ingredientPortion = ingredientPortion;
     }
 
-    public Ingredient(int ingredientId, String ingredientName, double ingredientCalorie, double ingredientSugar, double ingredientFat , double ingredientPro, double ingredientPortion) {
+    public Ingredient(int ingredientId, String ingredientName, double ingredientCalorie, double ingredientSugar, double ingredientFat , double ingredientProt, double ingredientPortion) {
             this.ingredientId= ingredientId;
             this.ingredientName= ingredientName;
             this.ingredientCalorie= ingredientCalorie;
             this.ingredientSugar= ingredientSugar;
             this.ingredientFat= ingredientFat;
-            this.ingredientPro= ingredientPro;
+            this.ingredientProt= ingredientProt;
             this.ingredientPortion= ingredientPortion;
         }
 

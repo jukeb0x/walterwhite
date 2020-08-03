@@ -1,13 +1,25 @@
 package fr.mm.walterwhite.models;
 
-import java.io.Serializable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+@Entity(foreignKeys = @ForeignKey(entity = Recipe.class,
+        parentColumns = "recipeId",
+        childColumns = "recipeId"))
 public class RecipeContent implements Serializable  {
 
+        @PrimaryKey(autoGenerate = true)
         private int recipeContentId;
+        @ColumnInfo(name = "recipeId")
         private int recipeId;
+        @ColumnInfo(name = "name")
         private String ingredientName;
+        @ColumnInfo(name = "point")
         private double ingredientPoints;
+        @ColumnInfo(name = "portion")
         private double ingredientPortion;
 
 

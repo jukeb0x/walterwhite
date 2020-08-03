@@ -1,15 +1,27 @@
 package fr.mm.walterwhite.dao.impl;
 
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
+
 import java.util.List;
 
-import fr.mm.walterwhite.models.Recipe;
 import fr.mm.walterwhite.models.RecipeContent;
-import fr.mm.walterwhite.models.Weight;
 
+@Dao
 public interface IRecipeContentDao {
 
-    public List<RecipeContent> getRecipeContents(int recipeId);
+    @Query("SELECT * FROM RECIPECONTENT WHERE recipeId=:pRecipeId")
+    public LiveData<List<RecipeContent>> getRecipeContents(int pRecipeId);
+    @Insert
     public void addRecipeContent(RecipeContent rec);
+    @Delete
     public void deleteRecipeContent(RecipeContent rec);
+
+    @Update
+    public void updateRecipeContent(RecipeContent rec);
 
 }

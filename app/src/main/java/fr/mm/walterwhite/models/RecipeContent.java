@@ -3,12 +3,17 @@ package fr.mm.walterwhite.models;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 @Entity(foreignKeys = @ForeignKey(entity = Recipe.class,
         parentColumns = "recipeId",
-        childColumns = "recipeId"))
+        childColumns = "recipeId",
+        onDelete = ForeignKey.CASCADE),
+        indices = {
+                @Index(name = "recipeId_index", value = {"recipeId"})
+        })
 public class RecipeContent implements Serializable  {
 
         @PrimaryKey(autoGenerate = true)
@@ -18,13 +23,13 @@ public class RecipeContent implements Serializable  {
         @ColumnInfo(name = "name")
         private String ingredientName;
         @ColumnInfo(name = "point")
-        private double ingredientPoints;
+        private int ingredientPoints;
         @ColumnInfo(name = "portion")
         private double ingredientPortion;
 
 
 
-    public RecipeContent(int recipeContentId, int recipeId, String ingredientName , double ingredientPoints, double ingredientPortion) {
+    public RecipeContent(int recipeContentId, int recipeId, String ingredientName , int ingredientPoints, double ingredientPortion) {
             this.recipeContentId= recipeContentId;
             this.recipeId= recipeId;
             this.ingredientName= ingredientName;
@@ -63,11 +68,11 @@ public class RecipeContent implements Serializable  {
         this.ingredientName = ingredientName;
     }
 
-    public double getIngredientPoints() {
+    public int getIngredientPoints() {
         return ingredientPoints;
     }
 
-    public void setIngredientPoints(double ingredientPoints) {
+    public void setIngredientPoints(int ingredientPoints) {
         this.ingredientPoints = ingredientPoints;
     }
 

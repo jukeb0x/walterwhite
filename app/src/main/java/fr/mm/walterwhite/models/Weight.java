@@ -17,8 +17,7 @@ public class Weight implements Serializable  {
 
 
 
-    public Weight(int weightId, String weightDate, double weight) {
-            this.weightId= weightId;
+    public Weight(String weightDate, double weight) {
             this.weightDate= weightDate;
             this.weight=weight;
     }

@@ -22,7 +22,7 @@ import fr.mm.walterwhite.models.Recipe;
 import fr.mm.walterwhite.models.RecipeContent;
 import fr.mm.walterwhite.models.Weight;
 
-@Database(entities = {Consommation.class, Ingredient.class, Recipe.class, RecipeContent.class, Weight.class}, version = 7, exportSchema = false)
+@Database(entities = {Consommation.class, Ingredient.class, Recipe.class, RecipeContent.class, Weight.class}, version = 8, exportSchema = false)
 public abstract class DatabaseHelper extends RoomDatabase {
 
 
@@ -37,16 +37,14 @@ public abstract class DatabaseHelper extends RoomDatabase {
         public abstract IRecipeDao recipeDao();
         public abstract IWeightDao weightDao();
 
-    static final Migration MIGRATION_2_3 = new Migration(5, 6) {
+    static final Migration MIGRATION_2_3 = new Migration(7, 8) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-                      ContentValues contentValues = new ContentValues();
-            contentValues.put("name", "Lait");
-            contentValues.put("meal", "PETIT-DEJEUNER");
-            contentValues.put("points", 3);
+
+            ContentValues contentValues = new ContentValues();
             contentValues.put("date", "02/08/2020");
-            contentValues.put("portion", 25);
-            database.insert("Consommation", OnConflictStrategy.IGNORE, contentValues);
+            contentValues.put("pounds", 25);
+            database.insert("Weight", OnConflictStrategy.IGNORE, contentValues);
         }
     };
 
@@ -60,7 +58,6 @@ public abstract class DatabaseHelper extends RoomDatabase {
                                 DatabaseHelper.class, "walterwhite.db")
                                 .addCallback(prepopulateDatabase())
                                 .addMigrations(MIGRATION_2_3)
-                                .fallbackToDestructiveMigration()
                                 .build();
                     }
                 }
@@ -76,12 +73,13 @@ public abstract class DatabaseHelper extends RoomDatabase {
                 @Override
                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                     super.onCreate(db);
+
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put("name", "Lait");
+                    contentValues.put("name", "Banane");
                     contentValues.put("meal", "PETIT-DEJEUNER");
-                    contentValues.put("points", 3);
+                    contentValues.put("points", 0);
                     contentValues.put("date", "02/08/2020");
-                    contentValues.put("portion", 25);
+                    contentValues.put("portion", 100);
                     db.insert("Consommation", OnConflictStrategy.IGNORE, contentValues);
                 }
             };

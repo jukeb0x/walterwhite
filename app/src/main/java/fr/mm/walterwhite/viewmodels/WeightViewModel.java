@@ -36,6 +36,10 @@ public class WeightViewModel extends ViewModel {
         return dataSource.getLastWeight();
     }
 
+    public LiveData<Weight> getFirstWeight() {
+        return dataSource.getFirstWeight();
+    }
+
     public void createWeight(Weight item) {
         executor.execute(() -> {
             dataSource.createWeight(item);

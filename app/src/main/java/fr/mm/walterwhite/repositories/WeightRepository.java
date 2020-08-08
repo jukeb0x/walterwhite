@@ -17,6 +17,7 @@ public class WeightRepository {
 
     public LiveData<List<Weight>> getWeights(){ return this.dao.getWeights(); }
     public LiveData<Weight> getLastWeight(){ return this.dao.getLastWeight();}
+    public LiveData<Weight> getFirstWeight(){ return this.dao.getFirstWeight();}
 
 
     // --- CREATE ---

@@ -16,6 +16,12 @@ public interface IWeightDao {
 
     @Query("SELECT * FROM WEIGHT ORDER BY weightId DESC LIMIT 1")
     public LiveData<Weight> getLastWeight();
+
+    @Query("SELECT * FROM WEIGHT ORDER BY date ASC LIMIT 1")
+    public LiveData<Weight> getFirstWeight();
+
+
+
     @Insert
     public void addWeight(Weight weight);
 

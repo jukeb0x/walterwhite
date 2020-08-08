@@ -1,10 +1,12 @@
 package fr.mm.walterwhite.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,8 +39,12 @@ public class WeightFragment extends Fragment {
     private RecyclerView gridView;
     private WeightViewModel itemViewModel;
     private  WeightRecyclerViewAdapter adapter;
-    private EditText poundsInput;
+    private TextView poundsValue;
     private TextView poundsDate;
+    private TextView totalLoss;
+    private Dialog PoundPickerDialog;
+    private Weight lastWeight;
+    private Weight firstWeight;
 
     public static WeightFragment newInstance() {
         return new WeightFragment();
@@ -54,13 +59,39 @@ public class WeightFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        poundsInput=getView().findViewById(R.id.pounds_input);
-        poundsDate=getView().findViewById(R.id.WeightDateTextView);
+        poundsValue=getView().findViewById(R.id.MainPoundValue);
+        poundsDate=getView().findViewById(R.id.MainPoundDate);
+        totalLoss=getView().findViewById(R.id.TotalLossValue);
         configureViewModel();
         handleGrid();
         handleMainDatePicker();
         handleButton();
+        handleWeightValues();
     }
+
+    private void handleWeightValues() {
+        itemViewModel.getFirstWeight().observe(getActivity(),this::setFirstWeight);;
+        itemViewModel.getLastWeight().observe(getActivity(),this::setLastWeight);
+    }
+
+    private void updateHeaderValues(){
+        if (lastWeight != null) {poundsValue.setText(lastWeight.getWeight()+"kg");}
+        if (firstWeight != null && lastWeight != null) {
+            double tl = (double) Math.round((lastWeight.getWeight()-firstWeight.getWeight())*10)/10;
+            totalLoss.setText("Depuis le " + firstWeight.getWeightDate()+" : "+ tl + "kg");
+        }
+    }
+
+    private void setLastWeight(Weight lw){
+        lastWeight=lw;
+        updateHeaderValues();
+    }
+    private void setFirstWeight(Weight fw){
+        firstWeight=fw;
+        updateHeaderValues();
+    }
+
+
 
     private void configureViewModel(){
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(getActivity());
@@ -70,17 +101,8 @@ public class WeightFragment extends Fragment {
 
 
     private void handleGrid(){
-        gridView = getActivity().findViewById(R.id.listweights);
-        List<Weight> listCModels =new  ArrayList<>();
-        /*WeightDao db = new WeightDao(getActivity());
-            List<Weight> list = db.getWeights();
-
-            for(Weight conso:list){
-                WeightViewModel cm=new WeightViewModel(conso.getWeightDate(),conso.getWeight()+"kg");
-                listCModels.add(cm);
-
-            }*/
-
+        gridView = getActivity().findViewById(R.id.ListWeights);
+        List<Weight> listCModels =new ArrayList<>();
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -93,19 +115,57 @@ public class WeightFragment extends Fragment {
         }
 
     protected void handleButton() {
-        Button myButton =  getView().findViewById(R.id.weight_button);
+        Button myButton =  getView().findViewById(R.id.MainAddPoundsButton);
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null != poundsInput.getText())
-                createItem();
-                else {
-                    Toast toast = Toast.makeText(getActivity(), "Veuillez saisir un poids", Toast.LENGTH_LONG);
-                    toast.show();
+                //Toast toast = Toast.makeText(getActivity(), "Veuillez saisir un poids", Toast.LENGTH_LONG);
+                //toast.show();
+                showPoundValuePickerDialog();
+            }
+        });
+    }
+
+
+    private void showPoundValuePickerDialog(){
+        PoundPickerDialog = new Dialog(getActivity());
+        PoundPickerDialog.setTitle("Entrer un poids");
+        PoundPickerDialog.setContentView(R.layout.weightpickerdialog_layout);
+        Button bc = (Button) PoundPickerDialog.findViewById(R.id.PoundPickerCancelButton);
+        Button bs = (Button) PoundPickerDialog.findViewById(R.id.PoundPickerSetButton);
+        EditText pv = (EditText) PoundPickerDialog.findViewById(R.id.PoundPicker);
+        bs.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                onPoundTextViewSet(pv.getText()+"kg");
+            }
+        });
+        bc.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                PoundPickerDialog.dismiss();
+            }
+        });
+        pv.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    onPoundTextViewSet(pv.getText()+"kg");
+                    return true;
                 }
+                return false;
             }
         });
 
+        PoundPickerDialog.show();
+    }
+
+    private void onPoundTextViewSet(String newValue){
+        poundsValue.setText(newValue);
+        PoundPickerDialog.dismiss();
+        createItem();
+        updateHeaderValues();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -114,7 +174,7 @@ public class WeightFragment extends Fragment {
         android.icu.text.SimpleDateFormat dateFormat = new android.icu.text.SimpleDateFormat("dd/MM/yyyy");
         String strTodayDate = dateFormat.format(Calendar.getInstance().getTime());
 
-        poundsDate=getView().findViewById(R.id.WeightDateTextView);
+        poundsDate=getView().findViewById(R.id.MainPoundDate);
         poundsDate.setText(strTodayDate);
         poundsDate.setOnClickListener(new View.OnClickListener() {
 
@@ -140,7 +200,6 @@ public class WeightFragment extends Fragment {
             }
         });
     }
-
 
 
     // -------------------
@@ -170,7 +229,7 @@ public class WeightFragment extends Fragment {
     }
 
     private void createItem(){
-        Weight item = new Weight(1,this.poundsDate.getText().toString(), Double.parseDouble(this.poundsInput.getText().toString()));
+        Weight item = new Weight(this.poundsDate.getText().toString(), Double.parseDouble(this.poundsValue.getText().toString().split("k")[0]));
         this.itemViewModel.createWeight(item);
     }
 

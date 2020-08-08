@@ -8,7 +8,7 @@
     android:background="#333333">
 
     <RelativeLayout
-        android:id="@+id/express_name_layout"
+        android:id="@+id/express_meals_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
@@ -20,6 +20,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/express_meals_label"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:text="@string/express_meals_label"
+            android:textColor="#FFFFFF" />
+
+        <Spinner
+            android:id="@+id/express_meals"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/express_meals_label"
+            android:textColor="#FFFFFF"
+            android:layout_width="100dp"
+            android:layout_height="40dp"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/express_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_below="@+id/express_meals_layout"
+        app:layout_constraintTop_toBottomOf="@+id/express_meals_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/express_name_label"
@@ -37,7 +70,6 @@
             android:layout_toEndOf="@+id/express_name_label"
             android:background="#666666"
             android:imeOptions="actionDone"
-            android:inputType="number"
             android:textColor="#FFFFFF" />
     </RelativeLayout>
 
@@ -55,6 +87,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/express_name_layout">
+
 
         <TextView
             android:id="@+id/express_points_label"

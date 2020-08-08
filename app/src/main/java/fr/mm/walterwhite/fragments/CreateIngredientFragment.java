@@ -45,7 +45,7 @@ public class CreateIngredientFragment extends Fragment {
     }
 
     protected void handleButton() {
-        Button myButton =  getView().findViewById(R.id.weight_button);
+        Button myButton =  getView().findViewById(R.id.AddCreatedIngredientButton);
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

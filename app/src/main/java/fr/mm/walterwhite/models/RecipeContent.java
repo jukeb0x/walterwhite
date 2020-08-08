@@ -29,8 +29,7 @@ public class RecipeContent implements Serializable  {
 
 
 
-    public RecipeContent(int recipeContentId, int recipeId, String ingredientName , int ingredientPoints, double ingredientPortion) {
-            this.recipeContentId= recipeContentId;
+    public RecipeContent(int recipeId, String ingredientName , int ingredientPoints, double ingredientPortion) {
             this.recipeId= recipeId;
             this.ingredientName= ingredientName;
             this.ingredientPoints= ingredientPoints;

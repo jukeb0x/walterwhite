@@ -1,18 +1,30 @@
 package fr.mm.walterwhite.fragments;
 
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import org.apache.commons.lang.StringUtils;
+
+import java.util.Date;
+
 import fr.mm.walterwhite.R;
+import fr.mm.walterwhite.dao.Constants;
 import fr.mm.walterwhite.injection.Injection;
 import fr.mm.walterwhite.injection.ViewModelFactory;
+import fr.mm.walterwhite.models.Consommation;
+import fr.mm.walterwhite.utils.DateUtils;
 import fr.mm.walterwhite.viewmodels.ConsoViewModel;
 
 /**
@@ -22,12 +34,24 @@ import fr.mm.walterwhite.viewmodels.ConsoViewModel;
 public class ExpressFragment extends Fragment {
 
     private ConsoViewModel itemViewModel;
+    private TextView expressPoints;
+    private TextView expressName;
+    private Spinner expressMeal;
 
     public ExpressFragment() {
         // Required empty public constructor
     }
 
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        expressPoints=getView().findViewById(R.id.express_points);
+        expressName=getView().findViewById(R.id.express_name);
+        expressMeal=getView().findViewById(R.id.express_meals);
+        configureViewModel();
+        handleSpinner();
+        handleButton();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +72,7 @@ public class ExpressFragment extends Fragment {
     }
 
     protected void handleButton() {
-        Button myButton =  getView().findViewById(R.id.weight_button);
+        Button myButton =  getView().findViewById(R.id.AddExpressIngredientButton);
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,13 +87,29 @@ public class ExpressFragment extends Fragment {
 
     }
 
+    protected void handleSpinner() {
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, Constants.MEALS);
+        expressMeal.setAdapter(adapter);
+
+    }
+
     private boolean checkDataComplete()
-    {return true;}
+    {
+        return StringUtils.isNotBlank(expressName.getText().toString())
+                && StringUtils.isNotBlank(expressMeal.getSelectedItem().toString())
+                && StringUtils.isNotBlank(expressPoints.getText().toString());
+    }
 
 
 
     private void createItem(){
-        //  Ingredient item = new Ingredient(1,this.poundsDate.getText().toString(), Double.parseDouble(this.poundsInput.getText().toString()));
-        // this.itemViewModel.createIngredient(item);
+        android.icu.text.SimpleDateFormat dateFormat = new android.icu.text.SimpleDateFormat("dd-MM-yyyy");
+        Date date = Calendar.getInstance().getTime();
+        String chosenDate= DateUtils.formateDate(date.getYear(), date.getMonth(), date.getDate());
+         Consommation item = new Consommation(this.expressName.getText().toString(),expressMeal.getSelectedItem().toString(),
+                 Integer.parseInt(this.expressPoints.getText().toString()),chosenDate,0);
+         this.itemViewModel.createConsommation(item);
+        Toast toast = Toast.makeText(getActivity(), "Consommation ajoutée !", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

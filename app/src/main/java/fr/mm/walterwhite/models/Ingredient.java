@@ -90,8 +90,7 @@ public class Ingredient implements Serializable  {
         this.ingredientPortion = ingredientPortion;
     }
 
-    public Ingredient(int ingredientId, String ingredientName, double ingredientCalorie, double ingredientSugar, double ingredientFat , double ingredientProt, double ingredientPortion) {
-            this.ingredientId= ingredientId;
+    public Ingredient(String ingredientName, double ingredientCalorie, double ingredientSugar, double ingredientFat , double ingredientProt, double ingredientPortion) {
             this.ingredientName= ingredientName;
             this.ingredientCalorie= ingredientCalorie;
             this.ingredientSugar= ingredientSugar;

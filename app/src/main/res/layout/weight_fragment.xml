@@ -28,7 +28,7 @@
             android:id="@+id/MainPoundValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="77.7kg"
+            android:text="0kg"
             android:layout_centerInParent="true"
             android:textColor="#FFFFFF"
             android:layout_below="@+id/MainPoundDate"/>
@@ -37,7 +37,7 @@
             android:id="@+id/TotalLossValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Depuis le 06/06/2020 : -7.7kg"
+            android:text="Depuis le 06/06/2020 : 0kg"
             android:layout_centerInParent="true"
             android:textColor="#FFFFFF"
             android:layout_margin="10dp"
@@ -55,6 +55,59 @@
         android:background="#000033"
         app:layout_constraintBottom_toTopOf="@+id/weight_add_button_layout"
         app:layout_constraintTop_toBottomOf="@+id/weight_main_info_layout">
+
+
+        <RelativeLayout
+            android:id="@+id/WeightGraphView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#550000">
+
+        </RelativeLayout>
+
+
+
+        <TableLayout
+            android:id="@+id/WeightTableView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#005500"
+            android:layout_below="@id/WeightGraphView"
+            android:stretchColumns="1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@string/table_weight_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:padding="3dip" />
+
+                <TextView
+                    android:text="@string/table_weight_pounds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:gravity="end"
+                    android:padding="3dip" />
+            </TableRow>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ListWeights"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="#009688"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0.0" >
+            </androidx.recyclerview.widget.RecyclerView>
+        </TableLayout>
+
 
     </RelativeLayout>
 
@@ -121,41 +174,6 @@
 
 
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:stretchColumns="1">
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
-                <TextView
-                    android:text="@string/table_weight_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="3dip" />
-
-                <TextView
-                    android:text="@string/table_weight_pounds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:padding="3dip" />
-            </TableRow>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listweights"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="#009688"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="0.0" >
-
-            </androidx.recyclerview.widget.RecyclerView>
-       </TableLayout>-->
+       -->
 
 </RelativeLayout>

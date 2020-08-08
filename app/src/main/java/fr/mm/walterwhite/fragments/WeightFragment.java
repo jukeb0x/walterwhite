@@ -20,8 +20,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.mm.walterwhite.R;
@@ -39,7 +41,10 @@ public class WeightFragment extends Fragment {
     private  WeightRecyclerViewAdapter adapter;
     private TextView poundsValue;
     private TextView poundsDate;
+    private TextView totalLoss;
     private Dialog PoundPickerDialog;
+    private Weight lastWeight;
+    private Weight firstWeight;
 
     public static WeightFragment newInstance() {
         return new WeightFragment();
@@ -56,11 +61,37 @@ public class WeightFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         poundsValue=getView().findViewById(R.id.MainPoundValue);
         poundsDate=getView().findViewById(R.id.MainPoundDate);
+        totalLoss=getView().findViewById(R.id.TotalLossValue);
         configureViewModel();
         handleGrid();
         handleMainDatePicker();
         handleButton();
+        handleWeightValues();
     }
+
+    private void handleWeightValues() {
+        itemViewModel.getFirstWeight().observe(getActivity(),this::setFirstWeight);;
+        itemViewModel.getLastWeight().observe(getActivity(),this::setLastWeight);
+    }
+
+    private void updateHeaderValues(){
+        if (lastWeight != null) {poundsValue.setText(lastWeight.getWeight()+"kg");}
+        if (firstWeight != null && lastWeight != null) {
+            double tl = (double) Math.round((lastWeight.getWeight()-firstWeight.getWeight())*10)/10;
+            totalLoss.setText("Depuis le " + firstWeight.getWeightDate()+" : "+ tl + "kg");
+        }
+    }
+
+    private void setLastWeight(Weight lw){
+        lastWeight=lw;
+        updateHeaderValues();
+    }
+    private void setFirstWeight(Weight fw){
+        firstWeight=fw;
+        updateHeaderValues();
+    }
+
+
 
     private void configureViewModel(){
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(getActivity());
@@ -70,17 +101,8 @@ public class WeightFragment extends Fragment {
 
 
     private void handleGrid(){
-        /*gridView = getActivity().findViewById(R.id.listweights);
-        List<Weight> listCModels =new  ArrayList<>();
-        /*WeightDao db = new WeightDao(getActivity());
-            List<Weight> list = db.getWeights();
-
-            for(Weight conso:list){
-                WeightViewModel cm=new WeightViewModel(conso.getWeightDate(),conso.getWeight()+"kg");
-                listCModels.add(cm);
-
-            }
-
+        gridView = getActivity().findViewById(R.id.ListWeights);
+        List<Weight> listCModels =new ArrayList<>();
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -88,7 +110,7 @@ public class WeightFragment extends Fragment {
         this.adapter = new WeightRecyclerViewAdapter(getActivity(), listCModels);
         gridView.setLayoutManager(layoutManager);
         gridView.setAdapter(adapter);
-        getItems();*/
+        getItems();
 
         }
 
@@ -142,7 +164,8 @@ public class WeightFragment extends Fragment {
     private void onPoundTextViewSet(String newValue){
         poundsValue.setText(newValue);
         PoundPickerDialog.dismiss();
-        //AddNewPoundValueToDB()
+        createItem();
+        updateHeaderValues();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -205,10 +228,10 @@ public class WeightFragment extends Fragment {
 
     }
 
-    /*private void createItem(){
-        Weight item = new Weight(1,this.poundsDate.getText().toString(), Double.parseDouble(this.poundsInput.getText().toString()));
+    private void createItem(){
+        Weight item = new Weight(this.poundsDate.getText().toString(), Double.parseDouble(this.poundsValue.getText().toString().split("k")[0]));
         this.itemViewModel.createWeight(item);
-    }*/
+    }
 
 
 

@@ -11,18 +11,20 @@
         android:id="@+id/CreateIngredientComposition"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="#333333"
         android:fillViewport="true"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/CreateIngredientButtonLayout">
 
         <RelativeLayout
             android:id="@+id/CreateIngredientComposition2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/calorie_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_margin="10dp"
@@ -33,14 +35,17 @@
                 <TextView
                     android:id="@+id/calorie_amount_label"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
                     android:layout_centerInParent="true"
                     android:text="@string/calorie_amount_label" />
 
                 <EditText
                     android:id="@+id/calorie_amount"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:background="#666666"
                     android:layout_centerInParent="true"
                     android:layout_toEndOf="@+id/calorie_amount_label"
                     android:imeOptions="actionNext"
@@ -50,7 +55,7 @@
             <RelativeLayout
                 android:id="@+id/sugar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/calorie_layout"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -65,14 +70,17 @@
                 <TextView
                     android:id="@+id/sugar_amount_label"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
                     android:layout_centerInParent="true"
                     android:text="@string/sugar_amount_label" />
 
                 <EditText
                     android:id="@+id/sugar_amount"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:background="#666666"
                     android:layout_centerInParent="true"
                     android:layout_toEndOf="@+id/sugar_amount_label"
                     android:imeOptions="actionNext"
@@ -82,7 +90,7 @@
             <RelativeLayout
                 android:id="@+id/fat_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/sugar_layout"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -97,14 +105,17 @@
                 <TextView
                     android:id="@+id/fat_amount_label"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
                     android:layout_centerInParent="true"
                     android:text="@string/fat_amount_label" />
 
                 <EditText
                     android:id="@+id/fat_amount"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:background="#666666"
                     android:layout_centerInParent="true"
                     android:layout_toEndOf="@+id/fat_amount_label"
                     android:imeOptions="actionNext"
@@ -114,7 +125,7 @@
             <RelativeLayout
                 android:id="@+id/prot_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/fat_layout"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -129,14 +140,17 @@
                 <TextView
                     android:id="@+id/prot_amount_label"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
                     android:layout_centerInParent="true"
                     android:text="@string/prot_amount_label" />
 
                 <EditText
                     android:id="@+id/prot_amount"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:background="#666666"
                     android:layout_centerInParent="true"
                     android:layout_toEndOf="@+id/prot_amount_label"
                     android:imeOptions="actionNext"
@@ -146,7 +160,7 @@
             <RelativeLayout
                 android:id="@+id/new_ingredient_name_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/prot_layout"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -161,55 +175,133 @@
                 <TextView
                     android:id="@+id/new_ingredient_name_label"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
                     android:layout_centerInParent="true"
                     android:text="@string/new_ingredient_name_label" />
 
                 <EditText
                     android:id="@+id/new_ingredient_name"
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:background="#666666"
                     android:layout_centerInParent="true"
                     android:layout_toEndOf="@+id/new_ingredient_name_label"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
                     android:inputType="text" />
             </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/new_ingredient_points_layout"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@+id/new_ingredient_name_layout"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_ingredient_name_layout">
+            <RelativeLayout
+                android:id="@+id/mass_amount_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/new_ingredient_name_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/new_ingredient_name_layout">
 
                 <TextView
+                    android:id="@+id/mass_amount_label"
                     android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@drawable/pointcircle"
-                    android:text="50"
-                    android:textAlignment="center"
-                    android:textSize="50sp"
-                    android:layout_centerInParent="true"/>
-        </RelativeLayout>
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:layout_centerInParent="true"
+                    android:text="@string/mass_amount_label" />
+
+                <EditText
+                    android:id="@+id/mass_amount"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:background="#666666"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/mass_amount_label"
+                    android:imeOptions="actionDone"
+                    android:inputType="number" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/barcode_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/mass_amount_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mass_amount_layout">
+
+                <TextView
+                    android:id="@+id/barcode_label"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:layout_centerInParent="true"
+                    android:text="@string/barcode_label" />
+
+                <EditText
+                    android:id="@+id/barcode"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:background="#666666"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/barcode_label"
+                    android:imeOptions="actionDone"
+                    android:inputType="number" />
+                <!--<ImageButton
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_toEndOf="@+id/barcode"
+                    android:src="@drawable/ic_scan"/>-->
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/new_ingredient_points_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/barcode_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barcode_layout">
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/pointcircle"
+                        android:text="0"
+                        android:textAlignment="center"
+                        android:textSize="25sp"
+                        android:layout_centerInParent="true"/>
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/CreateIngredientButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/CreateIngredientComposition">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/AddCreatedIngredientButton"
@@ -217,8 +309,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/addKnownButtonLabel" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

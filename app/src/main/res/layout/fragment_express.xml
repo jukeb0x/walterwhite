@@ -1,32 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.ExpressFragment">
+    tools:context=".fragments.ExpressFragment"
+    android:background="#333333">
 
     <RelativeLayout
-        android:id="@+id/express_first_area"
+        android:id="@+id/express_name_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:background="#5EFF5722"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/express_second_area"
         app:layout_constraintTop_toTopOf="parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/express_name_label" />
-    <EditText
-        android:id="@+id/express_name"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:inputType="text"/>
+        <TextView
+            android:id="@+id/express_name_label"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:text="@string/express_name_label"
+            android:textColor="#FFFFFF" />
+
+        <EditText
+            android:id="@+id/express_name"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/express_name_label"
+            android:background="#666666"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:textColor="#FFFFFF" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/express_points_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/express_name_layout"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/express_name_layout">
+
+        <TextView
+            android:id="@+id/express_points_label"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:text="@string/express_points_label"
+            android:textColor="#FFFFFF" />
+
+        <EditText
+            android:id="@+id/express_points"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/express_points_label"
+            android:background="#666666"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/AddExpressIngredientButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/AddExpressIngredientButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/addExpressButtonLabel" />
+    </RelativeLayout>
+
+    <!--
+
     <RelativeLayout
         android:id="@+id/express_second_area"
         android:layout_width="match_parent"
@@ -60,6 +128,6 @@
             android:layout_centerInParent="true"
             android:text="@string/addExpressButtonLabel" />
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
-</FrameLayout>
+</RelativeLayout>

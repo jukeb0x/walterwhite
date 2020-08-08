@@ -1,59 +1,99 @@
 package fr.mm.walterwhite.fragments;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import fr.mm.walterwhite.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CreateIngredientFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CreateIngredientFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private EditText calorieEditText;
+    private EditText sugarEditText;
+    private EditText fatEditText;
+    private EditText proteinEditText;
+    private EditText nameEditText;
+    private EditText quantityEditText;
+    private EditText barcodeEditText;
+    private TextView pointsValue;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    public CreateIngredientFragment() {
-        // Required empty public constructor
-    }
+    public CreateIngredientFragment() {}
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateIngredientFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CreateIngredientFragment newInstance(String param1, String param2) {
-        CreateIngredientFragment fragment = new CreateIngredientFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    public static CreateIngredientFragment newInstance() {return new CreateIngredientFragment();}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+    }
+
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        calorieEditText=getView().findViewById(R.id.calorie_amount);
+        sugarEditText=getView().findViewById(R.id.sugar_amount);
+        fatEditText=getView().findViewById(R.id.fat_amount);
+        proteinEditText=getView().findViewById(R.id.prot_amount);
+        nameEditText=getView().findViewById(R.id.new_ingredient_name);
+        quantityEditText=getView().findViewById(R.id.mass_amount);
+        barcodeEditText=getView().findViewById(R.id.barcode);
+        pointsValue=getView().findViewById(R.id.new_ingredient_points);
+
+
+        calorieEditText.setOnKeyListener(new View.OnKeyListener(){
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                onIngredientCompositionChange();
+                return false;
+            }
+        });
+
+        sugarEditText.setOnKeyListener(new View.OnKeyListener(){
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                onIngredientCompositionChange();
+                return false;
+            }
+        });
+
+        fatEditText.setOnKeyListener(new View.OnKeyListener(){
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                onIngredientCompositionChange();
+                return false;
+            }
+        });
+
+        proteinEditText.setOnKeyListener(new View.OnKeyListener(){
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                onIngredientCompositionChange();
+                return false;
+            }
+        });
+
+        quantityEditText.setOnKeyListener(new View.OnKeyListener(){
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                onIngredientCompositionChange();
+                return false;
+            }
+        });
+
+    }
+
+    public void onIngredientCompositionChange(){
+        if (quantityEditText.getText().toString().equals("")){quantityEditText.setText("100");}
+
+
+        pointsValue.setText("10");
     }
 
     @Override
@@ -62,4 +102,6 @@ public class CreateIngredientFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_create_ingredient, container, false);
     }
+
+
 }

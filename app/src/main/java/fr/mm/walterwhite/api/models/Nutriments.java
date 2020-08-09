@@ -25,53 +25,96 @@ public class Nutriments implements Serializable {
 
 
     @JsonProperty(ApiFields.Keys.ENERGY_KCAL_100GR)
-    private double calorie;
+    private double calorie_100gr;
     @JsonProperty(ApiFields.Keys.SATURATED_FAT_100GR)
-    private double fat;
+    private double fat_100gr;
     @JsonProperty(ApiFields.Keys.SUGARS_100gr)
-    private double sugar;
+    private double sugar_100gr;
     @JsonProperty(ApiFields.Keys.PROTEINS_100GR)
-    private double proteins;
+    private double proteins_100gr;
+    @JsonProperty(ApiFields.Keys.ENERGY_KCAL_SERVING)
+    private double calorie_serving;
+    @JsonProperty(ApiFields.Keys.SATURATED_FAT_SERVING)
+    private double fat_serving;
+    @JsonProperty(ApiFields.Keys.SUGARS_SERVING)
+    private double sugar_serving;
+    @JsonProperty(ApiFields.Keys.PROTEINS_SERVING)
+    private double proteins_serving;
 
-    public double getCalorie() {
-        return calorie;
-    }
 
-    public void setCalorie(double calorie) {
-        this.calorie = calorie;
-    }
-
-    public double getFat() {
-        return fat;
-    }
-
-    public void setFat(double fat) {
-        this.fat = fat;
-    }
-
-    public double getSugar() {
-        return sugar;
-    }
-
-    public void setSugar(double sugar) {
-        this.sugar = sugar;
-    }
-
-    public double getProteins() {
-        return proteins;
-    }
-
-    public void setProteins(double proteins) {
-        this.proteins = proteins;
-    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("calorie", calorie)
-                .append("fat", fat)
-                .append("sugar", sugar)
-                .append("proteins", proteins)
+                .append("calorie", calorie_100gr)
+                .append("fat", fat_100gr)
+                .append("sugar", sugar_100gr)
+                .append("proteins", proteins_100gr)
                 .toString();
+    }
+
+
+    public double getCalorie_100gr() {
+        return calorie_100gr;
+    }
+
+    public void setCalorie_100gr(double calorie_100gr) {
+        this.calorie_100gr = calorie_100gr;
+    }
+
+    public double getFat_100gr() {
+        return fat_100gr;
+    }
+
+    public void setFat_100gr(double fat_100gr) {
+        this.fat_100gr = fat_100gr;
+    }
+
+    public double getSugar_100gr() {
+        return sugar_100gr;
+    }
+
+    public void setSugar_100gr(double sugar_100gr) {
+        this.sugar_100gr = sugar_100gr;
+    }
+
+    public double getProteins_100gr() {
+        return proteins_100gr;
+    }
+
+    public void setProteins_100gr(double proteins_100gr) {
+        this.proteins_100gr = proteins_100gr;
+    }
+
+    public double getCalorie_serving() {
+        return calorie_serving;
+    }
+
+    public void setCalorie_serving(double calorie_serving) {
+        this.calorie_serving = calorie_serving;
+    }
+
+    public double getFat_serving() {
+        return fat_serving;
+    }
+
+    public void setFat_serving(double fat_serving) {
+        this.fat_serving = fat_serving;
+    }
+
+    public double getSugar_serving() {
+        return sugar_serving;
+    }
+
+    public void setSugar_serving(double sugar_serving) {
+        this.sugar_serving = sugar_serving;
+    }
+
+    public double getProteins_serving() {
+        return proteins_serving;
+    }
+
+    public void setProteins_serving(double proteins_serving) {
+        this.proteins_serving = proteins_serving;
     }
 }

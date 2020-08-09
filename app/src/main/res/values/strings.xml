@@ -82,5 +82,12 @@
     <string name="barcode_label">Code Barre</string>
     <string name="express_express_label">Repas</string>
     <string name="express_meals_label">Repas</string>
+    <string name="radio_serving">Par portion</string>
+    <string name="radio_gr">Par gramme</string>
+    <string name="amount_label">Entrez une quantité</string>
+    <string name="launchScan">Lancer le scan</string>
+    <string name="search_product">Recherche Produits</string>
+    <string name="search_ingredient">Mes ingrédients</string>
+    <string name="search_recipe">Mes recettes</string>
 
 </resources>

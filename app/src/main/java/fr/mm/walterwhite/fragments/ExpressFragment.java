@@ -2,6 +2,7 @@ package fr.mm.walterwhite.fragments;
 
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import org.apache.commons.lang.StringUtils;
-
-import java.util.Date;
 
 import fr.mm.walterwhite.R;
 import fr.mm.walterwhite.dao.Constants;
@@ -104,8 +103,11 @@ public class ExpressFragment extends Fragment {
 
     private void createItem(){
         android.icu.text.SimpleDateFormat dateFormat = new android.icu.text.SimpleDateFormat("dd-MM-yyyy");
-        Date date = Calendar.getInstance().getTime();
-        String chosenDate= DateUtils.formateDate(date.getYear(), date.getMonth(), date.getDate());
+        int year = Calendar.getInstance().get(Calendar.YEAR);  // 2012
+        int month = Calendar.getInstance().get(Calendar.MONTH);  // 9 - October!!!
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);  // 5
+        String chosenDate= DateUtils.formateDate(year, month, day);
+        Log.w("Mathilde", "chosenDate=" + chosenDate);
          Consommation item = new Consommation(this.expressName.getText().toString(),expressMeal.getSelectedItem().toString(),
                  Integer.parseInt(this.expressPoints.getText().toString()),chosenDate,0);
          this.itemViewModel.createConsommation(item);

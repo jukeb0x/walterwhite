@@ -7,9 +7,10 @@ import java.util.concurrent.Executor;
 
 import fr.mm.walterwhite.repositories.ConsommationRepository;
 import fr.mm.walterwhite.repositories.IngredientRepository;
-import fr.mm.walterwhite.repositories.OpenfoodfactsRepository;
+import fr.mm.walterwhite.repositories.ProductRepository;
 import fr.mm.walterwhite.repositories.RecipeContentRepository;
 import fr.mm.walterwhite.repositories.RecipeRepository;
+import fr.mm.walterwhite.repositories.SearchRepository;
 import fr.mm.walterwhite.repositories.WeightRepository;
 import fr.mm.walterwhite.viewmodels.ConsoViewModel;
 import fr.mm.walterwhite.viewmodels.IngredientViewModel;
@@ -24,17 +25,19 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     private final RecipeRepository dataSourceRecipe;
     private final RecipeContentRepository dataSourceRecipeContent;
     private final WeightRepository dataSourceWeight;
-    private final OpenfoodfactsRepository dataSourceProduct;
+    private final ProductRepository dataSourceProduct;
+    private final SearchRepository dataSourceSearch;
     private final Executor executor;
 
     public ViewModelFactory(ConsommationRepository dataSourceConsommation, IngredientRepository dataSourceIngredient,
-                                            RecipeRepository dataSourceRecipe, RecipeContentRepository dataSourceRecipeContent, WeightRepository dataSourceWeight , OpenfoodfactsRepository dataSourceProduct,Executor executor) {
+                                            RecipeRepository dataSourceRecipe, RecipeContentRepository dataSourceRecipeContent, WeightRepository dataSourceWeight , ProductRepository dataSourceProduct,SearchRepository dataSourceSearch,Executor executor) {
         this.dataSourceConsommation = dataSourceConsommation;
         this.dataSourceIngredient = dataSourceIngredient;
         this.dataSourceRecipe = dataSourceRecipe;
         this.dataSourceRecipeContent = dataSourceRecipeContent;
         this.dataSourceWeight = dataSourceWeight;
         this.dataSourceProduct = dataSourceProduct;
+        this.dataSourceSearch = dataSourceSearch;
 
         this.executor = executor;
     }
@@ -54,7 +57,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new ProductViewModel(dataSourceProduct, executor);
         }
         else if (modelClass.isAssignableFrom(SearchViewModel.class)) {
-            return (T) new SearchViewModel(dataSourceProduct, executor);
+            return (T) new SearchViewModel(dataSourceSearch, executor);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class");

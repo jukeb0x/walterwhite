@@ -153,6 +153,12 @@ public final class ApiFields {
         public static final String SUGARS_100gr = "sugars_100g";
         public static final String PROTEINS_100GR = "proteins_100g";
         public static final String NUTRIMENTS = "nutriments";
+        public static final String ENERGY_KCAL_SERVING = "energy-kcal_serving";
+        public static final String SATURATED_FAT_SERVING = "saturated-fat_serving";
+        public static final String SUGARS_SERVING = "sugars_serving";
+        public static final String PROTEINS_SERVING= "proteins_serving";
+        public static final String SERVING_QUANTITY = "serving_quantity";
+
 
         private Keys() {
 

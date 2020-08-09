@@ -8,9 +8,10 @@ import java.util.concurrent.Executors;
 import fr.mm.walterwhite.dao.DatabaseHelper;
 import fr.mm.walterwhite.repositories.ConsommationRepository;
 import fr.mm.walterwhite.repositories.IngredientRepository;
-import fr.mm.walterwhite.repositories.OpenfoodfactsRepository;
+import fr.mm.walterwhite.repositories.ProductRepository;
 import fr.mm.walterwhite.repositories.RecipeContentRepository;
 import fr.mm.walterwhite.repositories.RecipeRepository;
+import fr.mm.walterwhite.repositories.SearchRepository;
 import fr.mm.walterwhite.repositories.WeightRepository;
 
 public class Injection {
@@ -37,8 +38,13 @@ public class Injection {
         return new WeightRepository(database.weightDao());
     }
 
-    public static OpenfoodfactsRepository provideOpenFoodFactsDataSource(Context context) {
-        return new OpenfoodfactsRepository(context,null);
+    public static ProductRepository provideProductDataSource(Context context) {
+        return new ProductRepository(context,null);
+    }
+
+    public static SearchRepository provideSearchDataSource(Context context) {
+        DatabaseHelper database = DatabaseHelper.getInstance(context);
+        return new SearchRepository(context,null, database.ingredientDao(), database.recipeDao());
     }
 
     public static Executor provideExecutor(){ return Executors.newSingleThreadExecutor(); }
@@ -49,8 +55,9 @@ public class Injection {
         RecipeRepository dataSourceRecipe = provideRecipeDataSource(context);
         ConsommationRepository dataSourceConsommation = provideConsommationDataSource(context);
         IngredientRepository dataSourceIngredient = provideIngredientDataSource(context);
-        OpenfoodfactsRepository dataSourceOFF = provideOpenFoodFactsDataSource(context);
+        ProductRepository dataSourceProduct = provideProductDataSource(context);
+        SearchRepository dataSourceSearch = provideSearchDataSource(context);
         Executor executor = provideExecutor();
-        return new ViewModelFactory(dataSourceConsommation, dataSourceIngredient,dataSourceRecipe, dataSourceRecipeContent,dataSourceWeight ,dataSourceOFF, executor);
+        return new ViewModelFactory(dataSourceConsommation, dataSourceIngredient,dataSourceRecipe, dataSourceRecipeContent,dataSourceWeight ,dataSourceProduct, dataSourceSearch, executor);
     }
 }

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/PoundPickerLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/amountDateValue"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/amount_meals_layout"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/amount_meals_layout"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/amountDateValue"
+>
+
+        <TextView
+            android:id="@+id/amount_meals_label"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:text="@string/express_meals_label"
+            android:textColor="#000" />
+
+        <Spinner
+            android:id="@+id/amount_meals"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/amount_meals_label"
+            android:textColor="#000"
+            android:layout_width="100dp"
+            android:layout_height="40dp"/>
+    </RelativeLayout>
+
+
+
+
+        <RadioGroup
+            android:id="@+id/radioAmountMode"
+            android:orientation="horizontal"
+            android:layout_below="@id/amount_meals_layout"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/radioGr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_gr"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioServing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_serving" />
+
+        </RadioGroup>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/amountLabel"
+        android:layout_below="@id/radioAmountMode"
+        android:text="@string/amount_label"/>
+
+    <EditText
+        android:id="@+id/amountPicker"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/amountLabel"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:id="@+id/amountPointLabel"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/pointcircle"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/amountPicker"
+        android:layout_centerInParent="true"/>
+
+    <Button
+        android:id="@+id/amountPickerCancelButton"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/amountPointLabel"
+        android:layout_alignParentEnd="true"
+        android:text="Annuler" />
+
+    <Button
+        android:id="@+id/amountPickerSetButton"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/amountPointLabel"
+        android:layout_alignParentStart="true"
+        android:text="Valider" />
+
+    <!--<Button
+        android:id="@+id/DatePoundPickerButton"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/PoundPickerSetButton"
+        android:layout_centerHorizontal="true"
+        android:text="Date" /> -->
+
+</RelativeLayout>

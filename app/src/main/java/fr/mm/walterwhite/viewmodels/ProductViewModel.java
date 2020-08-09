@@ -6,19 +6,19 @@ import androidx.lifecycle.ViewModel;
 import java.util.concurrent.Executor;
 
 import fr.mm.walterwhite.api.models.Product;
-import fr.mm.walterwhite.repositories.OpenfoodfactsRepository;
+import fr.mm.walterwhite.repositories.ProductRepository;
 
 public class ProductViewModel extends ViewModel {
 
     // REPOSITORIES
-    private final OpenfoodfactsRepository consoDataSource;
+    private final ProductRepository consoDataSource;
     private final Executor executor;
     private LiveData<Product> productResponseLiveData;
 
 
 
 
-    public ProductViewModel(OpenfoodfactsRepository consoDataSource, Executor executor) {
+    public ProductViewModel(ProductRepository consoDataSource, Executor executor) {
         this.consoDataSource = consoDataSource;
         this.executor = executor;
     }

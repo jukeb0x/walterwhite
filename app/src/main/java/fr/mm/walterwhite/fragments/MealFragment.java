@@ -41,7 +41,7 @@ import fr.mm.walterwhite.viewmodels.ConsoViewModel;
 import fr.mm.walterwhite.views.NewConsoActivity;
 
 import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.summingDouble;
+import static java.util.stream.Collectors.summingInt;
 
 
 public class MealFragment extends Fragment   {
@@ -260,8 +260,8 @@ public class MealFragment extends Fragment   {
         Map<String, List<Consommation>> result = items.stream()
                 .collect(groupingBy(
                         Consommation::getEatenMeal));
-        Map<String, Double> likesPerType = items.stream()
-                .collect(groupingBy(Consommation::getEatenMeal, summingDouble(Consommation::getEatenPoints)));
+        Map<String, Integer> likesPerType = items.stream()
+                .collect(groupingBy(Consommation::getEatenMeal, summingInt(Consommation::getEatenPoints)));
         for(String mealSel: Constants.MEALS) {
             MealViewModel meal;
             if(result.containsKey(mealSel)) {

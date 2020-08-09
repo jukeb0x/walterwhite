@@ -201,29 +201,8 @@ public class WeightFragment extends Fragment {
         });
     }
 
-
-    // -------------------
-    // UI
-    // -------------------
-    /*
-
-    private void configureRecyclerView(){
-        this.adapter = new ItemAdapter(this);
-        this.recyclerView.setAdapter(this.adapter);
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ItemClickSupport.addTo(recyclerView, R.layout.activity_todo_list_item)
-                .setOnItemClickListener((recyclerView1, position, v) -> this.updateItem(this.adapter.getItem(position)));
-    }
-
-    private void updateHeader(User user){
-        this.profileText.setText(user.getUsername());
-        Glide.with(this).load(user.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(this.profileImage);
-    }
-*/
     private void updateItemsList(List<Weight> items){
         Log.w("Mathilde", "items size=" + items.size());
-        //   this.adapter = new MealRecyclerViewAdapter(getActivity(), createModelsList(items));
-        //   listMeals.setAdapter(adapter);
         this.adapter.updateData(items);
 
     }

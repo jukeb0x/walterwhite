@@ -17,7 +17,7 @@ public interface IIngredientDao {
     public void deleteIngredient(Ingredient ing);
     @Update
     public void  updateIngredient(Ingredient ing);
-    @Query("SELECT * FROM INGREDIENT WHERE name like '%'+:pName+'%'")
+    @Query("SELECT * FROM INGREDIENT WHERE name like :pName")
     public LiveData<List<Ingredient>> getIngredients(String pName);
     @Insert
     public void addIngredient(Ingredient ing);

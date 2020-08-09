@@ -2,6 +2,7 @@ package fr.mm.walterwhite.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -90,6 +91,7 @@ public class Ingredient implements Serializable  {
         this.ingredientPortion = ingredientPortion;
     }
 
+    @Ignore
     public Ingredient(String ingredientName, double ingredientCalorie, double ingredientSugar, double ingredientFat , double ingredientProt, double ingredientPortion) {
             this.ingredientName= ingredientName;
             this.ingredientCalorie= ingredientCalorie;
@@ -98,6 +100,11 @@ public class Ingredient implements Serializable  {
             this.ingredientProt= ingredientProt;
             this.ingredientPortion= ingredientPortion;
         }
+
+    public Ingredient(String ingredientName, double ingredientCalorie, double ingredientSugar, double ingredientFat , double ingredientProt, double ingredientPortion,String ingredientBarcode) {
+        this(ingredientName, ingredientCalorie, ingredientSugar, ingredientFat , ingredientProt, ingredientPortion);
+        this.ingredientBarcode=ingredientBarcode;
+    }
 
 
 

@@ -15,7 +15,7 @@ public class IngredientRepository {
 
     // --- GET ---
 
-    public LiveData<List<Ingredient>> getIngredients(String name){ return this.dao.getIngredients(name); }
+    public LiveData<List<Ingredient>> getIngredients(String name){ return this.dao.getIngredients("%" + name+ "%"); }
 
     // --- CREATE ---
 

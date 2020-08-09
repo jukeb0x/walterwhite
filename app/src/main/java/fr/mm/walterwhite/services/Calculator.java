@@ -1,5 +1,7 @@
 package fr.mm.walterwhite.services;
 
+import android.util.Log;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +28,7 @@ public class Calculator {
     public static int computePoints(double energy, double fat, double sugar, double protein){
         double[] coeffPerso=coeffs.get(getColorFromPreferences());
         double points=energy*coeffPerso[0]+fat*coeffPerso[1]+sugar*coeffPerso[2]+protein*coeffPerso[3];
+        Log.w("Matthieu","Calculatrice :  " + points);
         return (int) Math.rint(points);
     }
 

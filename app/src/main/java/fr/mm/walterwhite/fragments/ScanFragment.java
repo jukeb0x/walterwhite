@@ -73,12 +73,8 @@ public class ScanFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         configureViewModel();
         handleButton();
-
-
-
     }
 
     public void scanFromFragment() {
@@ -101,9 +97,9 @@ public class ScanFragment extends Fragment {
             public void onChanged(Product volumesResponse) {
                 if (volumesResponse != null) {
                    String toast = "Data changed"+volumesResponse.toString();
-                     displayToast(toast);
+                     //displayToast(toast);
                     Log.w("Mathilde", "data changed" + volumesResponse.toString());
-                   showPoundValuePickerDialog(volumesResponse);
+                   showAddConsoDialog(volumesResponse);
                    // adapter.setResults(volumesResponse.getItems());
                 }
             }
@@ -122,7 +118,7 @@ public class ScanFragment extends Fragment {
                 toast = "Cancelled from fragment";
             } else {
                 toast = "Scanned from fragment: " + result.getContents();
-                displayToast(toast);
+                //displayToast(toast);
 
 
             }
@@ -134,9 +130,9 @@ public class ScanFragment extends Fragment {
     }
     public void performSearch(String code) {
         if(getActivity() != null) {
-            Log.w("Mathilde", "code=" + code);
+            //Log.w("Mathilde", "code=" + code);
             itemViewModel.getProductByBarcode(code);
-        }else  Log.w("Mathilde", "pas d'activity");
+        }else{}  //Log.w("Mathilde", "pas d'activity");
     }
 
     protected void handleButton() {
@@ -189,8 +185,10 @@ public class ScanFragment extends Fragment {
 
     }
 
-    private void showPoundValuePickerDialog(final Product volumesResponse){
-        amountPickerDialog = new Dialog(getActivity());
+    private void showAddConsoDialog(final Product volumesResponse){
+
+        if (amountPickerDialog!=null && amountPickerDialog.isShowing()){amountPickerDialog.dismiss();}
+        amountPickerDialog=new Dialog(getActivity());
         amountPickerDialog.setTitle("Entrez une quantité");
         amountPickerDialog.setContentView(R.layout.amountpickerdialog_layout);
         pointsSymbol= amountPickerDialog.findViewById(R.id.amountPointLabel);
@@ -237,15 +235,18 @@ public class ScanFragment extends Fragment {
         {
             @Override
             public void onClick(View v) {
-                //amountPickerDialog.dismiss();
-                //creer la conso
                 refreshPoints(volumesResponse);
-                createItem(volumesResponse);
-                amountPickerDialog.dismiss();
-
+                if (checkDataComplete()) {
+                    createItem(volumesResponse);
+                    amountPickerDialog.dismiss();
+                    displayToast("Conso ajoutée !");
+                }else{
+                    displayToast("Il manque des informations");
+                }
             }
         });
         pv.setOnKeyListener(new View.OnKeyListener() {
+            @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                     refreshPoints(volumesResponse);
@@ -285,19 +286,13 @@ public class ScanFragment extends Fragment {
     }
 
     private void createItem(Product product){
-
-        if (checkDataComplete()) {
-            double portion=Double.parseDouble(pv.getText().toString());
-            if(isServing) {
-                portion=Double.parseDouble(pv.getText().toString())*product.getServing_quantity();
-            }
-            Consommation item = new Consommation(product.getProductName(), mealsSel.getSelectedItem().toString(),
-                    Integer.parseInt(pointsSymbol.getText().toString()), amountDate.getText().toString(), portion);
-            this.consoViewModel.createConsommation(item);
-        }else{
-            Toast toast = Toast.makeText(getActivity(), "Il manque des informations", Toast.LENGTH_LONG);
-            toast.show();
+        double portion=Double.parseDouble(pv.getText().toString());
+        if(isServing) {
+            portion=Double.parseDouble(pv.getText().toString())*product.getServing_quantity();
         }
+        Consommation item = new Consommation(product.getProductName(), mealsSel.getSelectedItem().toString(),
+                Integer.parseInt(pointsSymbol.getText().toString()), amountDate.getText().toString(), portion);
+        this.consoViewModel.createConsommation(item);
     }
 
     private boolean checkDataComplete()

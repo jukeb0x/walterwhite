@@ -22,20 +22,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/daycircle"
-            android:textSize="30sp" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/allowedPoints"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/daycircle"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textAlignment="center" />
 
         <Space
             android:layout_width="0dp"
@@ -44,11 +32,26 @@
 
         <TextView
             android:id="@+id/eatenPoints"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/daycircle"
+            android:textSize="30sp"
+            android:textAlignment="center"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/allowedPoints"
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/daycircle"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textAlignment="center" />
 
     </LinearLayout>
 

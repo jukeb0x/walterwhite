@@ -74,8 +74,7 @@ public class Consommation implements Serializable, Parcelable {
         this.eatenPortion = eatenPortion;
     }
 
-    public Consommation(int eatenId, String eatenName, String eatenMeal, int eatenPoints, String eatenDate, double eatenPortion) {
-            this.eatenId= eatenId;
+    public Consommation(String eatenName, String eatenMeal, int eatenPoints, String eatenDate, double eatenPortion) {
             this.eatenName= eatenName;
             this.eatenMeal= eatenMeal;
             this.eatenPoints= eatenPoints;

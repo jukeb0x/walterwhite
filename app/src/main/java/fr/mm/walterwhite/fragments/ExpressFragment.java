@@ -1,59 +1,61 @@
 package fr.mm.walterwhite.fragments;
 
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.Date;
 
 import fr.mm.walterwhite.R;
+import fr.mm.walterwhite.dao.Constants;
+import fr.mm.walterwhite.injection.Injection;
+import fr.mm.walterwhite.injection.ViewModelFactory;
+import fr.mm.walterwhite.models.Consommation;
+import fr.mm.walterwhite.utils.DateUtils;
+import fr.mm.walterwhite.viewmodels.ConsoViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ExpressFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ExpressFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ConsoViewModel itemViewModel;
+    private TextView expressPoints;
+    private TextView expressName;
+    private Spinner expressMeal;
 
     public ExpressFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ExpressFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ExpressFragment newInstance(String param1, String param2) {
-        ExpressFragment fragment = new ExpressFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        expressPoints=getView().findViewById(R.id.express_points);
+        expressName=getView().findViewById(R.id.express_name);
+        expressMeal=getView().findViewById(R.id.express_meals);
+        configureViewModel();
+        handleSpinner();
+        handleButton();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -61,5 +63,53 @@ public class ExpressFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_express, container, false);
+    }
+
+    private void configureViewModel(){
+        ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(getActivity());
+        this.itemViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ConsoViewModel.class);
+        // this.itemViewModel.init(USER_ID);
+    }
+
+    protected void handleButton() {
+        Button myButton =  getView().findViewById(R.id.AddExpressIngredientButton);
+        myButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkDataComplete())
+                    createItem();
+                else {
+                    Toast toast = Toast.makeText(getActivity(), "Il manque des informations", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
+
+    }
+
+    protected void handleSpinner() {
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, Constants.MEALS);
+        expressMeal.setAdapter(adapter);
+
+    }
+
+    private boolean checkDataComplete()
+    {
+        return StringUtils.isNotBlank(expressName.getText().toString())
+                && StringUtils.isNotBlank(expressMeal.getSelectedItem().toString())
+                && StringUtils.isNotBlank(expressPoints.getText().toString());
+    }
+
+
+
+    private void createItem(){
+        android.icu.text.SimpleDateFormat dateFormat = new android.icu.text.SimpleDateFormat("dd-MM-yyyy");
+        Date date = Calendar.getInstance().getTime();
+        String chosenDate= DateUtils.formateDate(date.getYear(), date.getMonth(), date.getDate());
+         Consommation item = new Consommation(this.expressName.getText().toString(),expressMeal.getSelectedItem().toString(),
+                 Integer.parseInt(this.expressPoints.getText().toString()),chosenDate,0);
+         this.itemViewModel.createConsommation(item);
+        Toast toast = Toast.makeText(getActivity(), "Consommation ajoutée !", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

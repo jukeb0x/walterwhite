@@ -1,3 +1,7 @@
+ext {
+    APP_NAME = 'walterwhite'
+    HOST = '\\"https://ssl-api.openfoodfacts.org\\"'
+}
 apply plugin: 'com.android.application'
 
 android {
@@ -18,7 +22,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "APP_NAME", "\"walterwhite\""
+            buildConfigField "String", "HOST","\"https://fr.openfoodfacts.org\""
         }
+        debug {
+            buildConfigField "String", "APP_NAME", "\"walterwhite\""
+            buildConfigField "String", "HOST","\"https://fr.openfoodfacts.org\""
+        }
+
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -36,6 +48,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -46,6 +59,19 @@ dependencies {
     testImplementation "androidx.room:room-testing:2.2.5"
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+    implementation("com.squareup.retrofit2:retrofit:2.6.4")
+    implementation("com.squareup.retrofit2:converter-jackson:2.6.4")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.6.4")
+    implementation("com.squareup.retrofit2:converter-scalars:2.1.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.12.11")
+    //Serialization/Deserialization
+    implementation("com.fasterxml.jackson.core:jackson-core:2.11.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.11.1")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.11.1")
+    implementation("commons-lang:commons-lang:2.6")
+    implementation "androidx.cardview:cardview:1.0.0"
+
 
 
 

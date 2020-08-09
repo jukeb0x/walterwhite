@@ -11,7 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import org.apache.commons.lang.StringUtils;
+
 import fr.mm.walterwhite.R;
+import fr.mm.walterwhite.services.Calculator;
 
 public class CreateIngredientFragment extends Fragment {
 
@@ -90,16 +93,35 @@ public class CreateIngredientFragment extends Fragment {
     }
 
     public void onIngredientCompositionChange(){
-        if (quantityEditText.getText().toString().equals("")){quantityEditText.setText("100");}
 
+        if (quantityEditText.getText().toString().equals("") &&
+            !quantityEditText.isFocused()){quantityEditText.setText("100");}
 
-        pointsValue.setText("10");
+        double energy;
+        double fat;
+        double sugar;
+        double protein;
+        if (isEditTextValueNAN(calorieEditText.getText().toString())){energy=0;}
+        else{energy=Double.parseDouble(calorieEditText.getText().toString());}
+        if (isEditTextValueNAN(fatEditText.getText().toString())){fat=0;}
+        else{fat=Double.parseDouble(fatEditText.getText().toString());}
+        if (isEditTextValueNAN(sugarEditText.getText().toString())){sugar=0;}
+        else{sugar=Double.parseDouble(sugarEditText.getText().toString());}
+        if (isEditTextValueNAN(proteinEditText.getText().toString())){protein=0;}
+        else{protein=Double.parseDouble(proteinEditText.getText().toString());}
+
+        pointsValue.setText(String.valueOf(Calculator.computePoints(energy,fat,sugar,protein)));
+
+    }
+
+    private boolean isEditTextValueNAN(String value){
+        return (StringUtils.isBlank(value) ||
+                StringUtils.containsOnly(value,".") ||
+                StringUtils.containsOnly(value,","));
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_create_ingredient, container, false);
     }
 

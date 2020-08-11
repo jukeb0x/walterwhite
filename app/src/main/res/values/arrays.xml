@@ -3,7 +3,7 @@
     <string-array name="days_entries">
         <item>Lundi</item>
         <item>Mardi</item>
-        <item>Mercred</item>
+        <item>Mercredi</item>
         <item>Jeudi</item>
         <item>Vendredi</item>
         <item>Samedi</item>
@@ -11,12 +11,18 @@
     </string-array>
 
     <string-array name="days_values">
-        <item>Lundi</item>
-        <item>Mardi</item>
-        <item>Mercred</item>
-        <item>Jeudi</item>
-        <item>Vendredi</item>
-        <item>Samedi</item>
-        <item>Dimanche</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
+    <string-array name="program_colors">
+        <item>Bleu</item>
+        <item>Vert</item>
+        <item>Violet</item>
     </string-array>
 </resources>

@@ -3,10 +3,11 @@ package fr.mm.walterwhite.fragments;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +43,6 @@ import fr.mm.walterwhite.injection.Injection;
 import fr.mm.walterwhite.injection.ViewModelFactory;
 import fr.mm.walterwhite.models.Consommation;
 import fr.mm.walterwhite.utils.DateUtils;
-import fr.mm.walterwhite.utils.OnSwipeTouchListener;
 import fr.mm.walterwhite.viewmodels.ConsoViewModel;
 import fr.mm.walterwhite.views.NewConsoActivity;
 
@@ -51,7 +53,7 @@ import static java.util.stream.Collectors.summingInt;
 public class MealFragment extends Fragment   {
 
     private RecyclerView listMeals;
-    private final List<Consommation> consoList = new ArrayList<>();
+    private List<Consommation> consoList;
     private ArrayAdapter<Consommation> listViewAdapter;
     private MealRecyclerViewAdapter listViewAdapterMeals;
     private DatePickerDialog MainDatePicker;
@@ -63,29 +65,38 @@ public class MealFragment extends Fragment   {
     private TextView eatenPoints;
     private TextView weekPoints;
     private TextView remainingPoints;
+    private int pointsBudgetPerDay;
+    private int pointsBudgetPerWeek;
+    private int weekStartDay;
 
     public static MealFragment newInstance() {
         return new MealFragment();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.meal_fragment, container, false);
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getPreferenceValues();
         configureViewModel();
         handleMainDatePicker();
-        handleMeals();
+        handlePointsViews();
         handleButton();
-        handlePoints();
+        handleMeals();
     }
 
-    private void handlePoints() {
+    private void getPreferenceValues() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        pointsBudgetPerDay = Integer.parseInt(pref.getString("sp_nb","-1"));
+        pointsBudgetPerWeek = Integer.parseInt(pref.getString("rh_nb","-1"));
+        weekStartDay=Integer.parseInt(pref.getString("day_ref","1"));
+    }
+
+    private void handlePointsViews() {
         eatenPoints=getView().findViewById(R.id.eatenPoints);
         weekPoints=getView().findViewById(R.id.weekPoints);
         remainingPoints=getView().findViewById(R.id.allowedPoints);
@@ -101,27 +112,26 @@ public class MealFragment extends Fragment   {
         MainDateTxtView=getView().findViewById(R.id.MainDateTextView);
         MainDateTxtView.setText(strTodayDate);
         MainDateTxtView.setOnClickListener(new View.OnClickListener() {
-
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 showDatePickerDialog();
             }
         });
-        MainDateTxtView.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
-            @Override
-            public void onSwipeRight() {
-                changeDateOnSwipe(-1);
-            }
-            @Override
-            public void onSwipeLeft() {
-                changeDateOnSwipe(1);
-            }
-            @Override
-            public void onSwipeBottom() {
-                showDatePickerDialog();
-            }
-        });
+//        MainDateTxtView.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+//            @Override
+//            public void onSwipeRight() {
+//                changeDateOnSwipe(-1);
+//            }
+//            @Override
+//            public void onSwipeLeft() {
+//                changeDateOnSwipe(1);
+//            }
+//            @Override
+//            public void onSwipeBottom() {
+//                showDatePickerDialog();
+//            }
+//        });
     }
 
     private void showDatePickerDialog() {
@@ -137,6 +147,7 @@ public class MealFragment extends Fragment   {
                         String chosenDate= DateUtils.formateDate(year, monthOfYear, dayOfMonth);
                         MainDateTxtView.setText(chosenDate);
                         getItems(chosenDate);
+                        //updateItemsView();
                     }
                 }, year, month, day);
         MainDatePicker.show();
@@ -144,7 +155,6 @@ public class MealFragment extends Fragment   {
 
     private void changeDateOnSwipe(int increment){
         Calendar cal = Calendar.getInstance();
-
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         try {cal.setTime(sdf.parse(MainDateTxtView.getText().toString()));}
         catch (ParseException e){}
@@ -172,46 +182,8 @@ public class MealFragment extends Fragment   {
         });
     }
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
-   /* protected void handleMeals() {
-        // Get ListView object from xml
-        this.listMeals= getView().findViewById(R.id.listMeals);
-
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-
-        listMeals.setLayoutManager(layoutManager);
-
-
-        List<fr.mm.walterwhite.fragments.models.MealViewModel> listMModels =new ArrayList<>();
-        for(String mealSel: Constants.MEALS) {
-            double points=0;
-            ConsommationDao db = new ConsommationDao(getActivity());
-            // db.createDefaultIfNeed();
-            Date c = Calendar.getInstance().getTime();
-            System.out.println("Current time => " + c);
-
-            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-            String formattedDate = df.format(c);
-            List<Consommation> list = db.getConsommations(formattedDate, mealSel);
-            List<ConsommationViewModel> listCModels =new  ArrayList<>();
-            for(Consommation conso:list){
-                points+= conso.getEatenPoints();
-                ConsommationViewModel cm=new ConsommationViewModel(conso.getEatenName(),conso.getEatenPoints()+"",conso.getEatenPortion()+"gr");
-                listCModels.add(cm);
-            }
-            fr.mm.walterwhite.fragments.models.MealViewModel mm=new fr.mm.walterwhite.fragments.models.MealViewModel(mealSel, listCModels, points+"");
-            listMModels.add(mm);
-        }
-        //instantiate your adapter with the list of genres
-        MealRecyclerViewAdapter adapter = new MealRecyclerViewAdapter(getActivity(), listMModels);
-        listMeals.setAdapter(adapter);
-    }*/
-
-       protected void handleMeals() {
-        // Get ListView object from xml
+    protected void handleMeals() {
         this.listMeals= getView().findViewById(R.id.listMeals);
 
         LinearLayoutManager layoutManager
@@ -219,24 +191,14 @@ public class MealFragment extends Fragment   {
         listMeals.setLayoutManager(layoutManager);
         this.adapter = new MealRecyclerViewAdapter(getActivity(), initModelsList());
         getItems(MainDateTxtView.getText().toString());
+        //updateItemsView();
         listMeals.setAdapter(adapter);
     }
 
     private void configureViewModel(){
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(getActivity());
         this.itemViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ConsoViewModel.class);
-       // this.itemViewModel.init(USER_ID);
     }
-
-/*
-    private void getItems(int userId){
-        this.itemViewModel.getItems(userId).observe(this, this::updateItemsList);
-    }
-
-
-    private void deleteItem(Consommation item){
-        this.itemViewModel.deleteConsommation(item);
-    }*/
 
     private void updateItem(Consommation item){
         //modif de la donnée (portion)
@@ -244,32 +206,40 @@ public class MealFragment extends Fragment   {
         this.itemViewModel.updateConsommation(item);
     }
 
-    // -------------------
-    // UI
-    // -------------------
-    /*
+    private void updateItemsList(List<Consommation> items) {
 
-    private void configureRecyclerView(){
-        this.adapter = new ItemAdapter(this);
-        this.recyclerView.setAdapter(this.adapter);
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ItemClickSupport.addTo(recyclerView, R.layout.activity_todo_list_item)
-                .setOnItemClickListener((recyclerView1, position, v) -> this.updateItem(this.adapter.getItem(position)));
+        consoList = items;
+        updateItemsView();
     }
 
-    private void updateHeader(User user){
-        this.profileText.setText(user.getUsername());
-        Glide.with(this).load(user.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(this.profileImage);
-    }
-*/
-    private void updateItemsList(List<Consommation> items){
-        this.adapter.updateData(createModelsList(items));
+    private void updateItemsView(){
+        if (consoList==null){return;}
+        this.adapter.updateData(createModelsList(consoList));
         int sum=0;
-        for (Consommation item:items){
+        for (Consommation item:consoList){
             sum+=item.getEatenPoints();
         }
+        getPreferenceValues();
         eatenPoints.setText(String.valueOf(sum));
-        remainingPoints.setText(String.valueOf(23-sum));
+        remainingPoints.setText(String.valueOf(pointsBudgetPerDay-sum));
+        //weekPoints.setText(getRemainingWeekPoints());
+    }
+
+    private String getRemainingWeekPoints() {
+        LocalDate currentLDate = LocalDate.now();
+        LocalDate startLDate = currentLDate.with(TemporalAdjusters.previous(DateUtils.getDayOfWeekCst(weekStartDay)));
+        int weeksum = 0;
+        for (LocalDate date = startLDate; date.isBefore(currentLDate); date = date.plusDays(1)) {
+            getItems(date.toString());
+            int daySum=0;
+            for (Consommation item:consoList) {
+                daySum += item.getEatenPoints();
+            }
+            if (pointsBudgetPerDay-daySum>4){daySum=4;}
+            else {daySum=pointsBudgetPerDay-daySum;}
+            weeksum+=daySum;
+        }
+        return Integer.toString(pointsBudgetPerWeek-weeksum);
     }
 
     private List<MealViewModel> createModelsList(List<Consommation> items){
@@ -282,7 +252,6 @@ public class MealFragment extends Fragment   {
         for(String mealSel: Constants.MEALS) {
             MealViewModel meal;
             if(result.containsKey(mealSel)) {
-                Log.w("Mathilde", "meal=" + mealSel + " nb points " + result.get(mealSel));
                 meal = new MealViewModel(mealSel, result.get(mealSel), likesPerType.get(mealSel) + "");
             }else{
                 meal=new MealViewModel(mealSel, new ArrayList<Consommation>(),0+"" );
@@ -302,6 +271,6 @@ public class MealFragment extends Fragment   {
     }
 
     private void getItems(String meal){
-        this.itemViewModel.getConsommations(MainDateTxtView.getText().toString()).observe(getActivity(), this::updateItemsList);
+            this.itemViewModel.getConsommations(MainDateTxtView.getText().toString()).observe(getActivity(), this::updateItemsList);
     }
 }

@@ -30,6 +30,7 @@
     <string name="rh_title">Nombre de points dans la réserve hebdomadaire</string>
     <string name="pounds_title">Poids de départ</string>
     <string name="ref_day_title">Jour de pesée</string>
+    <string name="program_title">Programme</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>

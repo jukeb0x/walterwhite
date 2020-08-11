@@ -1,5 +1,7 @@
 package fr.mm.walterwhite.utils;
 
+import java.time.DayOfWeek;
+
 public class DateUtils {
 
     public static String formateDate(int year, int monthOfYear, int dayOfMonth){
@@ -16,8 +18,19 @@ public class DateUtils {
         }else {
             month+=correctMonth;
         }
+        return day + "/" + month + "/" + year;
+    }
 
-        String chosenDate=day + "/" + month + "/" + year;
-        return chosenDate;
+    public static DayOfWeek getDayOfWeekCst(int day){
+        switch (day){
+            default : return DayOfWeek.MONDAY;
+            case 1: return DayOfWeek.MONDAY;
+            case 2: return DayOfWeek.TUESDAY;
+            case 3: return DayOfWeek.WEDNESDAY;
+            case 4: return DayOfWeek.THURSDAY;
+            case 5: return DayOfWeek.FRIDAY;
+            case 6: return DayOfWeek.SATURDAY;
+            case 7: return DayOfWeek.SUNDAY;
+        }
     }
 }

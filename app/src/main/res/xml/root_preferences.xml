@@ -4,11 +4,13 @@
 
         <EditTextPreference
             app:key="sp_nb"
+            app:defaultValue="23"
             app:title="@string/sp_title"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             app:key="rh_nb"
+            app:defaultValue="35"
             app:title="@string/rh_title"
             app:useSimpleSummaryProvider="true" />
 
@@ -22,11 +24,19 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="Lundi"
+            app:defaultValue="1"
             app:entries="@array/days_entries"
             app:entryValues="@array/days_values"
             app:key="day_ref"
             app:title="@string/ref_day_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="Bleu"
+            app:entries="@array/program_colors"
+            app:entryValues="@array/program_colors"
+            app:key="programColor_ref"
+            app:title="@string/program_title"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

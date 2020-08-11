@@ -23,13 +23,13 @@ public class RecipeContent implements Serializable  {
         @ColumnInfo(name = "name")
         private String ingredientName;
         @ColumnInfo(name = "point")
-        private int ingredientPoints;
+        private double ingredientPoints;
         @ColumnInfo(name = "portion")
         private double ingredientPortion;
 
 
 
-    public RecipeContent(int recipeId, String ingredientName , int ingredientPoints, double ingredientPortion) {
+    public RecipeContent(int recipeId, String ingredientName , double ingredientPoints, double ingredientPortion) {
             this.recipeId= recipeId;
             this.ingredientName= ingredientName;
             this.ingredientPoints= ingredientPoints;
@@ -67,11 +67,11 @@ public class RecipeContent implements Serializable  {
         this.ingredientName = ingredientName;
     }
 
-    public int getIngredientPoints() {
+    public double getIngredientPoints() {
         return ingredientPoints;
     }
 
-    public void setIngredientPoints(int ingredientPoints) {
+    public void setIngredientPoints(double ingredientPoints) {
         this.ingredientPoints = ingredientPoints;
     }
 

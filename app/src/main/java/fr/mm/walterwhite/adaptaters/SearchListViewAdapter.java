@@ -1,7 +1,6 @@
 package fr.mm.walterwhite.adaptaters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,11 @@ public class SearchListViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
+        if(position>=0 && search!=null && search.size()>0) {
+            return search.get(position);
+        }
         return null;
+
     }
 
     @Override
@@ -49,7 +52,6 @@ public class SearchListViewAdapter extends BaseAdapter {
         convertView=LayoutInflater.from(context).inflate(R.layout.listsearch_item, parent, false);
         TextView brand=convertView.findViewById(R.id.search_brand);
         TextView name=convertView.findViewById(R.id.search_name);
-        Log.w("Mathilde", "update ui name=" + search.get(position).getProductName());
         name.setText(search.get(position).getProductName());
         brand.setText(search.get(position).getBrands());
 

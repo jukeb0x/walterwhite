@@ -1,7 +1,5 @@
 package fr.mm.walterwhite.api.models;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,7 +24,6 @@ class ProductStringConverter extends StdConverter<String, String> {
 
 class StringToDoubleConverter extends StdConverter<String, Double> {
     public Double convert(String value) {
-        Log.w("Mathilde ", "convert string" + value.replaceAll("[^\\d.]", ""));
         value=value.replaceAll("[^\\d.]", "");
         if(StringUtils.isNotBlank(value)) {
            return Double.parseDouble(value);

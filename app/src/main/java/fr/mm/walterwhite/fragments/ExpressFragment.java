@@ -109,7 +109,7 @@ public class ExpressFragment extends Fragment {
         String chosenDate= DateUtils.formateDate(year, month, day);
         Log.w("Mathilde", "chosenDate=" + chosenDate);
          Consommation item = new Consommation(this.expressName.getText().toString(),expressMeal.getSelectedItem().toString(),
-                 Integer.parseInt(this.expressPoints.getText().toString()),chosenDate,0);
+                 Double.parseDouble(this.expressPoints.getText().toString()),chosenDate,-1);
          this.itemViewModel.createConsommation(item);
         Toast toast = Toast.makeText(getActivity(), "Consommation ajoutée !", Toast.LENGTH_SHORT);
         toast.show();

@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/searchconstraintLayout"
     tools:context=".fragments.SearchNameFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/search_area" />
+        android:id="@+id/search_area"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
     <RelativeLayout
         android:id="@+id/search_product_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_below="@id/search_area"
-        android:background="#333333">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_area"
+        android:background="#000">
             <TextView
                 android:id="@+id/search_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
+                android:textColor="#fff"
                 android:padding="5dip"
                 android:text="@string/search_product"
                 android:textSize="18sp"/>
@@ -33,15 +39,17 @@
     <RelativeLayout
         android:id="@+id/search_ing_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_below="@id/search_product_layout"
-        android:background="#333333">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_product_layout"
+        android:background="#000">
 
             <TextView
                 android:id="@+id/search_ing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
+                android:textColor="#fff"
                 android:padding="5dip"
                 android:text="@string/search_ingredient"
                 android:textSize="18sp"/>
@@ -53,15 +61,17 @@
     <RelativeLayout
         android:id="@+id/search_rec_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_below="@id/search_ing_layout"
-        android:background="#333333">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_ing_layout"
+        android:background="#000">
             <TextView
                 android:id="@+id/search_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/search_recipe"
-                android:textColor="#000"
+                android:textColor="#fff"
                 android:padding="5dip"
                 android:textSize="18sp"/>
             <ListView
@@ -69,4 +79,4 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/searchRec_list" />
     </RelativeLayout>
-</FrameLayout>
+</RelativeLayout>

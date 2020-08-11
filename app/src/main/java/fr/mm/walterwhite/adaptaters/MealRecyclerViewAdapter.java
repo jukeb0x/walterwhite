@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.thoughtbot.expandablerecyclerview.ClickExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.ExpandCollapseController;
-import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableList;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
@@ -19,8 +19,9 @@ import java.util.List;
 import fr.mm.walterwhite.R;
 import fr.mm.walterwhite.fragments.models.MealViewModel;
 import fr.mm.walterwhite.models.Consommation;
+import fr.mm.walterwhite.services.Calculator;
 
-public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealRecyclerViewAdapter.MealRecyclerViewHolder, MealRecyclerViewAdapter.ConsoRecyclerViewHolder> {
+public class MealRecyclerViewAdapter extends ClickExpandableRecyclerViewAdapter<MealRecyclerViewAdapter.MealRecyclerViewHolder, MealRecyclerViewAdapter.ConsoRecyclerViewHolder> {
 
 
     private LayoutInflater mInflater;
@@ -48,7 +49,7 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
         final Consommation artist = ((MealViewModel) group).getItems().get(childIndex);
         holder.getConsoName().setText(artist.getEatenName());
         holder.getAmount().setText(artist.getEatenPortion()+"gr");
-        holder.getEatenPoints().setText(artist.getEatenPoints()+"");
+        holder.getEatenPoints().setText(Calculator.computeRoundPoints(artist.getEatenPoints())+"");
     }
 
     @Override
@@ -65,6 +66,9 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
         this.expandCollapseController = new ExpandCollapseController(expandableList, this);
         this.notifyDataSetChanged();
     }
+
+
+
 
 
     public class ConsoRecyclerViewHolder extends ChildViewHolder {
@@ -108,7 +112,7 @@ public class MealRecyclerViewAdapter extends ExpandableRecyclerViewAdapter<MealR
 
         public void onBind(Consommation artist) {
             consoName.setText(artist.getEatenName());
-            eatenPoints.setText(artist.getEatenPoints()+"");
+            eatenPoints.setText(Calculator.computeRoundPoints(artist.getEatenPoints())+"");
             amount.setText(artist.getEatenPortion()+"gr");
         }
     }

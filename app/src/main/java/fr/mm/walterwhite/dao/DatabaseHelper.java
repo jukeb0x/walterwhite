@@ -22,7 +22,7 @@ import fr.mm.walterwhite.models.Recipe;
 import fr.mm.walterwhite.models.RecipeContent;
 import fr.mm.walterwhite.models.Weight;
 
-@Database(entities = {Consommation.class, Ingredient.class, Recipe.class, RecipeContent.class, Weight.class}, version = 9, exportSchema = false)
+@Database(entities = {Consommation.class, Ingredient.class, Recipe.class, RecipeContent.class, Weight.class}, version = 10, exportSchema = false)
 public abstract class DatabaseHelper extends RoomDatabase {
 
 
@@ -37,14 +37,15 @@ public abstract class DatabaseHelper extends RoomDatabase {
         public abstract IRecipeDao recipeDao();
         public abstract IWeightDao weightDao();
 
-    static final Migration MIGRATION_2_3 = new Migration(8, 9) {
+    static final Migration MIGRATION_2_3 = new Migration(9, 10) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
 
-            ContentValues contentValues = new ContentValues();
+           /* ContentValues contentValues = new ContentValues();
             contentValues.put("date", "02/08/2020");
             contentValues.put("pounds", 25);
-            database.insert("Weight", OnConflictStrategy.IGNORE, contentValues);
+            database.insert("Weight", OnConflictStrategy.IGNORE, contentValues);*/
+          // database.execSQL("DELETE FROM CONSOMMATION");
         }
     };
 

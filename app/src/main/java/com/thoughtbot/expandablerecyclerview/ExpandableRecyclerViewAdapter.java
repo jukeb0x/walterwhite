@@ -2,6 +2,7 @@ package com.thoughtbot.expandablerecyclerview;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.thoughtbot.expandablerecyclerview.listeners.ExpandCollapseListener;
 import com.thoughtbot.expandablerecyclerview.listeners.GroupExpandCollapseListener;
+import com.thoughtbot.expandablerecyclerview.listeners.OnChildClickListener;
 import com.thoughtbot.expandablerecyclerview.listeners.OnGroupClickListener;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableList;
@@ -19,7 +21,7 @@ import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 import java.util.List;
 
 public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder, CVH extends ChildViewHolder>
-    extends RecyclerView.Adapter implements ExpandCollapseListener, OnGroupClickListener {
+    extends RecyclerView.Adapter implements ExpandCollapseListener, OnGroupClickListener, OnChildClickListener {
 
   private static final String EXPAND_STATE_MAP = "expandable_recyclerview_adapter_expand_state_map";
 
@@ -28,6 +30,7 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
 
   private OnGroupClickListener groupClickListener;
   private GroupExpandCollapseListener expandCollapseListener;
+
 
   public ExpandableRecyclerViewAdapter(List<? extends ExpandableGroup> groups) {
     this.expandableList = new ExpandableList(groups);
@@ -55,6 +58,7 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
         return gvh;
       case ExpandableListPosition.CHILD:
         CVH cvh = onCreateChildViewHolder(parent, viewType);
+        cvh.setOnChildClickListener(this);
         return cvh;
       default:
         throw new IllegalArgumentException("viewType is not valid");
@@ -159,6 +163,8 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
     }
   }
 
+
+
   /**
    * Triggered by a click on a {@link GroupViewHolder}
    *
@@ -167,11 +173,15 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
    */
   @Override
   public boolean onGroupClick(int flatPos) {
+    Log.w("mathilde","click adapter");
     if (groupClickListener != null) {
       groupClickListener.onGroupClick(flatPos);
     }
     return expandCollapseController.toggleGroup(flatPos);
   }
+
+
+
 
   /**
    * @param flatPos The flat list position of the group
@@ -237,6 +247,8 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
     expandCollapseListener = listener;
   }
 
+
+
   /**
    * The full list of {@link ExpandableGroup} backing this RecyclerView
    *
@@ -290,3 +302,5 @@ public abstract class ExpandableRecyclerViewAdapter<GVH extends GroupViewHolder,
    */
   public abstract void onBindGroupViewHolder(GVH holder, int flatPosition, ExpandableGroup group);
 }
+
+

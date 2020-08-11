@@ -16,9 +16,7 @@ public class SearchViewModel extends ViewModel {
     // REPOSITORIES
     private final SearchRepository consoDataSource;
     private final Executor executor;
-    private LiveData<Search> searchResponseLiveData;
-    private LiveData<List<Ingredient>> ingredientsResponseLiveData=new LiveData<List<Ingredient>>(){};
-    private LiveData<List<Recipe>> recipesResponseLiveData=new LiveData<List<Recipe>>() {};
+    private LiveData<Search> searchResponseLiveData;;
 
 
 
@@ -29,10 +27,7 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void init() {
-
         searchResponseLiveData = consoDataSource.getSearchResponseLiveData();
-        ingredientsResponseLiveData = consoDataSource.getSearchIngredientResponseLiveData();
-        recipesResponseLiveData = consoDataSource.getSearchRecipeResponseLiveData();
     }
 
 
@@ -44,11 +39,11 @@ public class SearchViewModel extends ViewModel {
     public LiveData<Search> getSearchResponseLiveData() {
         return searchResponseLiveData;
     }
-    public LiveData<List<Ingredient>> getSearchIngredientResponseLiveData() {
-        return ingredientsResponseLiveData;
+    public LiveData<List<Ingredient>> getSearchIngredientResponseLiveData(String name) {
+        return consoDataSource.searchIngredients(name);
     }
-    public LiveData<List<Recipe>> getSearchRecipeResponseLiveData() {
-        return recipesResponseLiveData;
+    public LiveData<List<Recipe>> getSearchRecipeResponseLiveData(String name) {
+        return consoDataSource.searchRecipes(name);
     }
 
 
@@ -57,6 +52,7 @@ public class SearchViewModel extends ViewModel {
             consoDataSource.searchProducts(name);
         });
     }
+
 
 
 

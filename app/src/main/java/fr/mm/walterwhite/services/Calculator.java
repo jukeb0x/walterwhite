@@ -25,14 +25,18 @@ public class Calculator {
     }
 
 
-    public static int computePoints(double energy, double fat, double sugar, double protein){
+    public static double computePoints(double energy, double fat, double sugar, double protein){
         double[] coeffPerso=coeffs.get(getColorFromPreferences());
         double points=energy*coeffPerso[0]+fat*coeffPerso[1]+sugar*coeffPerso[2]+protein*coeffPerso[3];
         Log.w("Matthieu","Calculatrice :  " + points);
-        return (int) Math.rint(points);
+        return Math.rint(points);
     }
 
-    public static int computePortionPoints(double energy, double fat, double sugar, double protein, double portion){
+    public static double computePortionPoints(double energy, double fat, double sugar, double protein, double portion){
         return computePoints(energy*portion, fat*portion, sugar*portion, protein*portion);
+    }
+
+    public static int computeRoundPoints(double points){
+        return (int) Math.rint(points);
     }
 }

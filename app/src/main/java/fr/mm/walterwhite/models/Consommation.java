@@ -19,7 +19,7 @@ public class Consommation implements Serializable, Parcelable {
         @ColumnInfo(name = "meal")
         private String eatenMeal;
         @ColumnInfo(name = "points")
-        private int eatenPoints;
+        private double eatenPoints;
         @ColumnInfo(name = "date")
         private String eatenDate;
         @ColumnInfo(name = "portion")
@@ -50,11 +50,15 @@ public class Consommation implements Serializable, Parcelable {
         this.eatenMeal = eatenMeal;
     }
 
-    public int getEatenPoints() {
+    public int getRoundEatenPoints() {
+        return (int) Math.rint(eatenPoints);
+    }
+
+    public double getEatenPoints() {
         return eatenPoints;
     }
 
-    public void setEatenPoints(int eatenPoints) {
+    public void setEatenPoints(double eatenPoints) {
         this.eatenPoints = eatenPoints;
     }
 
@@ -74,7 +78,7 @@ public class Consommation implements Serializable, Parcelable {
         this.eatenPortion = eatenPortion;
     }
 
-    public Consommation(String eatenName, String eatenMeal, int eatenPoints, String eatenDate, double eatenPortion) {
+    public Consommation(String eatenName, String eatenMeal, double eatenPoints, String eatenDate, double eatenPortion) {
             this.eatenName= eatenName;
             this.eatenMeal= eatenMeal;
             this.eatenPoints= eatenPoints;

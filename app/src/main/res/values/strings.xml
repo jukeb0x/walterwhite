@@ -90,5 +90,7 @@
     <string name="search_product">Recherche Produits</string>
     <string name="search_ingredient">Mes ingrédients</string>
     <string name="search_recipe">Mes recettes</string>
+    <string name="update">Mettre à jour</string>
+    <string name="delete">Supprimer</string>
 
 </resources>

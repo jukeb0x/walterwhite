@@ -1,13 +1,16 @@
 package fr.mm.walterwhite.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.thoughtbot.expandablerecyclerview.listeners.OnChildClickListener;
+import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
+import com.thoughtbot.expandablerecyclerview.models.ExpandableListPosition;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +44,7 @@ import java.util.Map;
 import fr.mm.walterwhite.R;
 import fr.mm.walterwhite.adaptaters.MealRecyclerViewAdapter;
 import fr.mm.walterwhite.dao.Constants;
+import fr.mm.walterwhite.fragments.managers.UpdateConsoManager;
 import fr.mm.walterwhite.fragments.models.MealViewModel;
 import fr.mm.walterwhite.injection.Injection;
 import fr.mm.walterwhite.injection.ViewModelFactory;
@@ -68,6 +75,7 @@ public class MealFragment extends Fragment   {
     private int pointsBudgetPerDay;
     private int pointsBudgetPerWeek;
     private int weekStartDay;
+    private UpdateConsoManager updateManager;
 
     public static MealFragment newInstance() {
         return new MealFragment();
@@ -91,9 +99,9 @@ public class MealFragment extends Fragment   {
 
     private void getPreferenceValues() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        pointsBudgetPerDay = Integer.parseInt(pref.getString("sp_nb","-1"));
-        pointsBudgetPerWeek = Integer.parseInt(pref.getString("rh_nb","-1"));
-        weekStartDay=Integer.parseInt(pref.getString("day_ref","1"));
+        pointsBudgetPerDay = Integer.parseInt(pref.getString("sp_nb", "-1"));
+        pointsBudgetPerWeek = Integer.parseInt(pref.getString("rh_nb", "-1"));
+        weekStartDay = Integer.parseInt(pref.getString("day_ref", "1"));
     }
 
     private void handlePointsViews() {
@@ -190,22 +198,76 @@ public class MealFragment extends Fragment   {
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         listMeals.setLayoutManager(layoutManager);
         this.adapter = new MealRecyclerViewAdapter(getActivity(), initModelsList());
+        this.adapter.setChildClickListener(new OnChildClickListener() {
+            @Override
+            public boolean onChildClick(int flatPos) {
+                ExpandableListPosition listPos = adapter.getChildIndexFromPosition(flatPos);
+                ExpandableGroup group =  adapter.getChildIndexFromPosition(listPos);
+                Log.w("mathilde", "child clicked"+group.getItems().get(listPos.childPos));
+                final Consommation conso = ((MealViewModel) group).getItems().get(listPos.childPos);
+                handleConsoDialog(conso);
+                return true;
+            }
+        });
         getItems(MainDateTxtView.getText().toString());
         //updateItemsView();
         listMeals.setAdapter(adapter);
     }
 
+    private void handleConsoDialog(Consommation conso){
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Editer une consommation")
+                .setMessage("Souhaitez-vous modifier ou supprimer cette consommation?")
+                .setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        updateManager.showPoundValuePickerDialog(conso);
+
+                    }
+                })
+
+                .setNegativeButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteItem(conso);
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+
+
+
+    // -------------------
+    // DATA
+    // -------------------
+
     private void configureViewModel(){
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(getActivity());
         this.itemViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ConsoViewModel.class);
+        updateManager=new UpdateConsoManager(this);
     }
 
+    // ---
+
+    // ---
+/*
+    private void getItems(int userId){
+        this.itemViewModel.getItems(userId).observe(this, this::updateItemsList);
+    }
+
+*/
+    private void deleteItem(Consommation item){
+        this.itemViewModel.deleteConsommation(item);
+    }
+/*
     private void updateItem(Consommation item){
         //modif de la donnée (portion)
         // item.setEatenPortion();
         this.itemViewModel.updateConsommation(item);
     }
-
+*/
     private void updateItemsList(List<Consommation> items) {
 
         consoList = items;
@@ -248,7 +310,7 @@ public class MealFragment extends Fragment   {
                 .collect(groupingBy(
                         Consommation::getEatenMeal));
         Map<String, Integer> likesPerType = items.stream()
-                .collect(groupingBy(Consommation::getEatenMeal, summingInt(Consommation::getEatenPoints)));
+                .collect(groupingBy(Consommation::getEatenMeal, summingInt(Consommation::getRoundEatenPoints)));
         for(String mealSel: Constants.MEALS) {
             MealViewModel meal;
             if(result.containsKey(mealSel)) {

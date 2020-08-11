@@ -2,6 +2,7 @@ package fr.mm.walterwhite.repositories;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,8 +35,8 @@ public class SearchRepository {
     private final IRecipeDao recDao;
 
     private MutableLiveData<Search> searchResponseLiveData=new MutableLiveData<>();
-    private LiveData<List<Ingredient>> ingredientsResponseLiveData=new LiveData<List<Ingredient>>(){};
-    private LiveData<List<Recipe>> recipesResponseLiveData=new LiveData<List<Recipe>>() {};
+    private LiveData<List<Ingredient>> ingredientsResponseLiveData;
+    private LiveData<List<Recipe>> recipesResponseLiveData;
     private MutableLiveData<Product> productResponseLiveData=new MutableLiveData<Product>();
     private static final String FIELDS_TO_FETCH_FACETS = "brands,product_name_fr,quantity,nutriments,code,serving_size,serving_quantity";
     public static final String HEADER_USER_AGENT_SEARCH = "Search";
@@ -67,18 +68,19 @@ public class SearchRepository {
 
     public void searchProducts(String name) {
         searchProducts(name, 1);
-        searchIngredients(name);
-        searchRecipes(name);
        // searchZeroList(name);
     }
 
 
-    private void searchIngredients(String name) {
-        ingredientsResponseLiveData=ingDao.getIngredients(name);
+
+
+    public  LiveData<List<Ingredient>> searchIngredients(String name) {
+        Log.w("Mathilde","ing "+"%"+name+"%");
+        return ingDao.getIngredients("%"+name+"%");
     }
 
-    private void searchRecipes(String name) {
-        recipesResponseLiveData=recDao.getRecipesByName(name);
+    public  LiveData<List<Recipe>> searchRecipes(String name) {
+        return recDao.getRecipesByName("%"+name+"%");
     }
 
 
@@ -104,13 +106,7 @@ public class SearchRepository {
         return searchResponseLiveData;
     }
 
-    public LiveData<List<Ingredient>> getSearchIngredientResponseLiveData() {
-        return ingredientsResponseLiveData;
-    }
 
-    public LiveData<List<Recipe>> getSearchRecipeResponseLiveData() {
-        return recipesResponseLiveData;
-    }
 
 
 

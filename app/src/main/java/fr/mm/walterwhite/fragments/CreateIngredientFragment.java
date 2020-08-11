@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import org.apache.commons.lang.StringUtils;
 
 import fr.mm.walterwhite.R;
+import fr.mm.walterwhite.fragments.managers.AddConsoFromIngredientManager;
 import fr.mm.walterwhite.injection.Injection;
 import fr.mm.walterwhite.injection.ViewModelFactory;
 import fr.mm.walterwhite.models.Ingredient;
@@ -34,6 +35,7 @@ public class CreateIngredientFragment extends Fragment {
     private EditText barcodeEditText;
     private TextView pointsValue;
     private Button createIngredientButton;
+    private AddConsoFromIngredientManager ingManager;
     private IngredientViewModel itemViewModel;
 
 
@@ -128,13 +130,19 @@ public class CreateIngredientFragment extends Fragment {
 
                 Ingredient item = new Ingredient(name,energy,sugar,fat,protein,quantity,barcode);
                 itemViewModel.createIngredient(item);
+                createConso(item);
             }
         });
+    }
+
+    private void createConso(Ingredient item){
+        ingManager.showPoundValuePickerDialog(item);
     }
 
     private void configureViewModel(){
         ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(getActivity());
         this.itemViewModel = ViewModelProviders.of(this, mViewModelFactory).get(IngredientViewModel.class);
+        ingManager=new AddConsoFromIngredientManager(this);
     }
 
     public void onIngredientCompositionChange(){

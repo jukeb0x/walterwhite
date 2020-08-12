@@ -163,7 +163,7 @@ public class CreateIngredientFragment extends Fragment {
         if (isEditTextValueNAN(proteinEditText.getText().toString())){protein=0;}
         else{protein=Double.parseDouble(proteinEditText.getText().toString());}
 
-        pointsValue.setText(String.valueOf(Calculator.computePoints(energy,fat,sugar,protein)));
+        pointsValue.setText(String.valueOf(Calculator.computePoints(energy,fat,sugar,protein,getContext())));
 
     }
 

@@ -36,7 +36,7 @@ public class AddConsoFromIngredientManager extends AddConsoManager<Ingredient> {
         double portion=quantity/((Ingredient) volumesResponse).getIngredientPortion();
         Log.w("Mathilde", "refresh gr portion="+portion);
         points=Calculator.computePortionPoints(product.getIngredientCalorie(), product.getIngredientFat(),
-                product.getIngredientSugar(), product.getIngredientProt(), portion);
+                product.getIngredientSugar(), product.getIngredientProt(), portion,frag.getContext());
         return 0;
     }
 

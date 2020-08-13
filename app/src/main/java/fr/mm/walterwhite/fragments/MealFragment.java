@@ -36,6 +36,7 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableListPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class MealFragment extends Fragment   {
 
     private RecyclerView listMeals;
     private List<Consommation> consoList;
+    private List<Consommation> consoPeriodList;
     private ArrayAdapter<Consommation> listViewAdapter;
     private MealRecyclerViewAdapter listViewAdapterMeals;
     private DatePickerDialog MainDatePicker;
@@ -155,7 +157,6 @@ public class MealFragment extends Fragment   {
                         String chosenDate= DateUtils.formateDate(year, monthOfYear, dayOfMonth);
                         MainDateTxtView.setText(chosenDate);
                         getItems(chosenDate);
-                        //updateItemsView();
                     }
                 }, year, month, day);
         MainDatePicker.show();
@@ -210,7 +211,6 @@ public class MealFragment extends Fragment   {
             }
         });
         getItems(MainDateTxtView.getText().toString());
-        //updateItemsView();
         listMeals.setAdapter(adapter);
     }
 
@@ -235,9 +235,6 @@ public class MealFragment extends Fragment   {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-
-
-
 
     // -------------------
     // DATA
@@ -269,7 +266,6 @@ public class MealFragment extends Fragment   {
     }
 */
     private void updateItemsList(List<Consommation> items) {
-
         consoList = items;
         updateItemsView();
     }
@@ -284,25 +280,31 @@ public class MealFragment extends Fragment   {
         getPreferenceValues();
         eatenPoints.setText(String.valueOf(sum));
         remainingPoints.setText(String.valueOf(pointsBudgetPerDay-sum));
-        //weekPoints.setText(getRemainingWeekPoints());
+        getRemainingWeekPoints();
     }
 
-    private String getRemainingWeekPoints() {
-        LocalDate currentLDate = LocalDate.now();
-        LocalDate startLDate = currentLDate.with(TemporalAdjusters.previous(DateUtils.getDayOfWeekCst(weekStartDay)));
+    private void updatePeriodItemsList(List<Consommation> items){
+        consoPeriodList = items;
+        if (consoPeriodList == null){return;}
         int weeksum = 0;
-        for (LocalDate date = startLDate; date.isBefore(currentLDate); date = date.plusDays(1)) {
-            getItems(date.toString());
-            int daySum=0;
-            for (Consommation item:consoList) {
-                daySum += item.getEatenPoints();
-            }
-            if (pointsBudgetPerDay-daySum>4){daySum=4;}
-            else {daySum=pointsBudgetPerDay-daySum;}
-            weeksum+=daySum;
+        int daySum=0;
+        for (Consommation item:consoPeriodList) {
+            daySum += item.getEatenPoints();
         }
-        return Integer.toString(pointsBudgetPerWeek-weeksum);
+        if (pointsBudgetPerDay-daySum>4){daySum=4;}
+        else {daySum=pointsBudgetPerDay-daySum;}
+        weeksum+=daySum;
+        weekPoints.setText(Integer.toString(pointsBudgetPerWeek+weeksum));
     }
+
+    private void getRemainingWeekPoints() {
+        LocalDate currentLDate = LocalDate.parse(MainDateTxtView.getText().toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate startLDate = currentLDate.with(TemporalAdjusters.previous(DateUtils.getDayOfWeekCst(weekStartDay)));
+        Log.w("Matt",startLDate + " " + currentLDate);
+        getPeriodItems(startLDate.toString(),currentLDate.toString());
+    }
+
+
 
     private List<MealViewModel> createModelsList(List<Consommation> items){
         List<MealViewModel> listMModels =new ArrayList<>();
@@ -333,6 +335,10 @@ public class MealFragment extends Fragment   {
     }
 
     private void getItems(String meal){
-            this.itemViewModel.getConsommations(MainDateTxtView.getText().toString()).observe(getActivity(), this::updateItemsList);
+        this.itemViewModel.getConsommations(meal).observe(getActivity(), this::updateItemsList);
+    }
+
+    private void getPeriodItems(String startDate,String endDate){
+        this.itemViewModel.getPeriodConsommations(startDate,endDate).observe(getActivity(), this::updatePeriodItemsList);
     }
 }

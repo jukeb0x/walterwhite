@@ -17,6 +17,8 @@ public class ConsommationRepository {
 
     public LiveData<List<Consommation>> getConsommations(String date){ return this.dao.getConsommations(date); }
 
+    public LiveData<List<Consommation>> getPeriodConsommations(String startDate,String endDate){return this.dao.getPeriodConsommations(startDate,endDate); }
+
     // --- CREATE ---
 
     public void createConsommation(Consommation item){ dao.addConsommation(item); }

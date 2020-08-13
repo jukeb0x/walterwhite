@@ -26,4 +26,7 @@ public interface IConsommationDao {
     @Insert
     public void addConsommation(Consommation conso);
 
+    @Query("SELECT * FROM CONSOMMATION WHERE date BETWEEN :sDate AND :eDate")
+    public LiveData<List<Consommation>> getPeriodConsommations(String sDate, String eDate);
+
 }

@@ -24,9 +24,8 @@ public class Calculator {
 
     private static String getColorFromPreferences(Context context){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        return pref.getString("sp_nb", "Vert");
+        return pref.getString("programColor_ref", "Vert");
     }
-
 
     public static double computePoints(double energy, double fat, double sugar, double protein, Context context){
         double[] coeffPerso=coeffs.get(getColorFromPreferences(context));

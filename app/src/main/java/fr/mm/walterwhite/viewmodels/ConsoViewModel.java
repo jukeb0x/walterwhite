@@ -32,6 +32,10 @@ public class ConsoViewModel  extends ViewModel {
         return consoDataSource.getConsommations(date);
     }
 
+    public LiveData<List<Consommation>> getPeriodConsommations(String startDate,String endDate) {
+        return consoDataSource.getPeriodConsommations(startDate,endDate);
+    }
+
     public void createConsommation(Consommation item) {
         executor.execute(() -> {
             consoDataSource.createConsommation(item);
